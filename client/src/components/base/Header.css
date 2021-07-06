@@ -1,9 +1,9 @@
 header.header {
   display: flex;
   flex-flow: column nowrap;
-  border: 1px solid #ccc;
-  padding: 13px;
   height: 512px;
+  padding-top: 20px;
+  padding: 20px 20px 0 20px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -13,7 +13,6 @@ header.header .header-top {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  border: 1px solid #ccc;
 }
 
 header.header .header-top .logo{
@@ -24,8 +23,7 @@ header.header .header-top .logo{
 header.header .header-top .option {
   display: flex;
   flex-flow: row nowrap;
-  border: 1px solid #ccc;
-  padding: 5px;
+  height: max-content;
 }
 
 header.header .header-top .option > * {
@@ -47,7 +45,6 @@ header.header .header-top .option .btn-login {
 
 header.header .header-body {
   flex: 1;
-  border: 1px solid #ccc;
   display: grid;
   place-items: center;
 }

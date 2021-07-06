@@ -1,0 +1,29 @@
+main.main {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+main.main .main-top {
+  margin: 36px 0 55px 0;
+}
+
+main.main .main-top h4{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 29px;
+  color: #EE4622;
+  text-align: center;
+}
+
+main.main .main-body {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  width: 80%;
+  margin: auto;
+}
+
+main.main .main-body > * {
+  margin: 10px;
+}

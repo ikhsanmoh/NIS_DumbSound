@@ -1,0 +1,41 @@
+div.song-card {
+  width: max-content;
+  height: max-content;
+  padding: 15px;
+  border-radius: 10px;
+  background: #3A3A3A;
+}
+
+div.song-card .thumbnail {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+div.song-card .info {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+div.song-card .info .title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+div.song-card .info .year {
+  display: grid;
+  place-items: center;
+}
+
+div.song-card .info .year,
+div.song-card .artist {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
