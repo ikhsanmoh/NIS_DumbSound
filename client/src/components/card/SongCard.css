@@ -1,6 +1,6 @@
 div.song-card {
   position: relative;
-  width: max-content;
+  width: 192px;
   height: max-content;
   padding: 15px;
   border-radius: 10px;
@@ -18,15 +18,14 @@ div.song-card .block {
 }
 
 div.song-card .thumbnail {
-  width: 150px;
-  height: 150px;
-  border: 1px solid #ccc;
+  width: 100%;
+  height: auto;
   margin-bottom: 15px;
 }
 
 div.song-card .info {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-between;
   margin-bottom: 5px;
 }
