@@ -18,6 +18,7 @@ const Home = () => {
     }
 
     setShowMusicPlayer(true)
+    alert('Music Play')
   }
 
   const loadMusics = async () => {

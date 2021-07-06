@@ -1,47 +1,47 @@
 import { useState, useContext } from 'react'
-// import { UserContext } from '../../context/userContext'
-// import { API, setAuthToken } from '../../config/api'
+import { UserContext } from '../../context/userContext'
+import { API, setAuthToken } from '../../config/api'
 import Modal from './Modal';
 import Button from '../button/Button';
 
 import './FormsModal.css'
 
 const LoginModal = ({ switchModal, modalStat, modalClose }) => {
-  // const [state, dispatch] = useContext(UserContext)
+  const [state, dispatch] = useContext(UserContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const onSubmitHandler = async (e) => {
-    // try {
-    //   e.preventDefault()
-    //   const config = {
-    //     headers: {
-    //       "Content-type": "application/json"
-    //     }
-    //   }
+    try {
+      e.preventDefault()
+      const config = {
+        headers: {
+          "Content-type": "application/json"
+        }
+      }
 
-    //   const body = JSON.stringify({
-    //     email,
-    //     password
-    //   })
+      const body = JSON.stringify({
+        email,
+        password
+      })
 
-    //   const response = await API.post("/login", body, config)
+      const response = await API.post("/login", body, config)
 
-    //   if (response.status === 200) {
-    //     alert('Login success!')
-    //     setAuthToken(response.data.data.user.token)
-    //     dispatch({
-    //       type: 'LOGIN',
-    //       payload: response.data.data.user
-    //     })
-    //     modalClose()
+      if (response.status === 200) {
+        alert('Login success!')
+        setAuthToken(response.data.data.token)
+        dispatch({
+          type: 'LOGIN',
+          payload: response.data.data
+        })
+        modalClose()
 
-    //     setEmail('')
-    //     setPassword('')
-    //   }
-    // } catch (error) {
-    //   alert(error?.response?.data?.message)
-    // }
+        setEmail('')
+        setPassword('')
+      }
+    } catch (error) {
+      alert(error?.response?.data?.message)
+    }
   }
 
   return (
@@ -66,7 +66,7 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
               onChange={e => setPassword(e.target.value)}
               required
             />
-            <Button text="Login" className="btn btn-login" />
+            <Button text="Login" className="btn btn-login" onClick={false} />
           </form>
           <p>
             Don't have an account ? Klik
