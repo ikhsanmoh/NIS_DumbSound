@@ -1,0 +1,25 @@
+.modal {
+  position: absolute;
+  width: max-content !important;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+  background: #1F1F1F;
+  border: 1px solid rgba(0, 0 , 0, .50);
+  border-radius: 10px;
+  /* padding: 40px 35px; */
+  text-align: center;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .40);
+}

@@ -1,8 +1,9 @@
 import './SongCard.css';
 
-const SongCard = ({ image, title, year, artist }) => {
+const SongCard = ({ image, title, year, artist, onClick }) => {
   return (
     <div className="song-card">
+      <div className="block" onClick={onClick}></div>
       <div className="thumbnail">
         <img src={image} alt="" />
       </div>
@@ -19,7 +20,8 @@ SongCard.defaultProps = {
   image: '/no-image.jpg',
   title: 'Unknown',
   year: 'Unknown',
-  artist: 'Unknown'
+  artist: 'Unknown',
+  onClick: () => { alert('Card clicked') }
 }
 
 export default SongCard

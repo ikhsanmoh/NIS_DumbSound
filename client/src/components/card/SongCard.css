@@ -1,9 +1,20 @@
 div.song-card {
+  position: relative;
   width: max-content;
   height: max-content;
   padding: 15px;
   border-radius: 10px;
   background: #3A3A3A;
+}
+
+div.song-card .block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  cursor: pointer;
 }
 
 div.song-card .thumbnail {

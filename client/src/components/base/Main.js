@@ -2,21 +2,14 @@ import SongCard from '../card/SongCard';
 
 import './Main.css';
 
-const Main = () => {
+const Main = ({ openMusicPlayer }) => {
   return (
     <main className="main">
       <div className="main-top">
-        <h4>
-          Dengarkan Dan Rasakan
-        </h4>
+        <h4>Dengarkan Dan Rasakan</h4>
       </div>
       <div className="main-body">
-        <SongCard />
-        <SongCard />
-        <SongCard />
-        <SongCard />
-        <SongCard />
-        <SongCard />
+        <SongCard onClick={openMusicPlayer} />
       </div>
     </main>
   )

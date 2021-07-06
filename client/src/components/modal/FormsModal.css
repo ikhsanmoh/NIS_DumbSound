@@ -1,0 +1,32 @@
+.form-modal {
+  max-width: 320px;
+  padding: 40px 35px;
+}
+
+.form-modal h1 {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.form-modal p, .form-modal a {
+  color: #b1b1b1
+}
+
+.form-modal input[type="text"],
+.form-modal input[type="email"],
+.form-modal input[type="password"] {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: rgba(210, 210, 210, 0.25);
+  border: 2px solid #D2D2D2;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: 0;
+  color: white;
+}
+
+.form-modal .btn {
+  margin-top: 38px;
+}
