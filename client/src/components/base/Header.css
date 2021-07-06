@@ -1,0 +1,69 @@
+header.header {
+  display: flex;
+  flex-flow: column nowrap;
+  border: 1px solid #ccc;
+  padding: 13px;
+  height: 512px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header.header .header-top {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+}
+
+header.header .header-top .logo{
+  width: 145px;
+  height: auto;
+}
+
+header.header .header-top .option {
+  display: flex;
+  flex-flow: row nowrap;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+header.header .header-top .option > * {
+  flex: 1;
+  flex-flow: row nowrap;
+  margin: 5px;
+  padding: 5 10 5 10;
+}
+
+header.header .header-top .option .btn-register,
+header.header .header-top .option .btn-login {
+  padding: 5px 36px;
+}
+
+header.header .header-top .option .btn-login {
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #FFF;
+}
+
+header.header .header-body {
+  flex: 1;
+  border: 1px solid #ccc;
+  display: grid;
+  place-items: center;
+}
+
+header.header .header-body h1 {
+font-style: normal;
+font-weight: normal;
+font-size: 48px;
+line-height: 58px;
+text-align: center;
+}
+
+header.header .header-body h3 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+}
