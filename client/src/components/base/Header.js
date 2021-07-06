@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 import { UserContext } from '../../context/userContext'
 
+import { Link } from 'react-router-dom'
+
 import LoginModal from '../modal/LoginModal';
 import RegistrationModal from '../modal/RegistrationModal';
 import Button from '../button/Button';
@@ -62,7 +64,7 @@ const Header = () => {
             <img src="/ds-logo.png" alt="logo" />
           </div>
           <div className="option">
-            {!state.isLogin ? (
+            {state.isLogin ? (
               <div className="dropdown">
                 <div className="dropdownbtn-wrapper">
                   <div onClick={dropDownClick} className="dropbtn">
@@ -70,8 +72,12 @@ const Header = () => {
                   <RoundedImage size='40px' />
                 </div>
                 <div id="myDropdown" className="dropdown-content">
-                  <h4>Add Music</h4>
-                  <h4>Add Artist</h4>
+                  <Link to="add-music">
+                    <h4>Add Music</h4>
+                  </Link>
+                  <Link to="add-artist">
+                    <h4>Add Artist</h4>
+                  </Link>
                   <h4 className="logout" onClick={logout}>Logout</h4>
                 </div>
               </div>

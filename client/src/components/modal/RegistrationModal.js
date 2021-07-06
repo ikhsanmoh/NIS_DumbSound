@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { API, setAuthToken } from '../../config/api'
+import { API } from '../../config/api'
 import Modal from './Modal'
 import Button from '../button/Button';
 
