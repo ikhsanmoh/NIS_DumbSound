@@ -14,7 +14,8 @@
 
 .form-modal input[type="text"],
 .form-modal input[type="email"],
-.form-modal input[type="password"] {
+.form-modal input[type="password"],
+.form-modal select {
   box-sizing: border-box;
   width: 100%;
   margin: 10px 0;
