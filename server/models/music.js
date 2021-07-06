@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Music.belongsTo(models.artists, {
+        as: 'artis',
+        foreignKey: 'artist'
+      })
     }
   };
   Music.init({
@@ -21,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     attache: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'music',
+    modelName: 'musics',
   });
   return Music;
 };

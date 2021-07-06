@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     startCareer: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'artist',
+    modelName: 'artists',
   });
   return Artist;
 };
