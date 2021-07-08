@@ -13,6 +13,7 @@ const Main = ({ openMusicPlayer, musics }) => {
       <div className="main-body">
         {musics && musics.map((music, index) => (
           <SongCard
+            key={index}
             title={music.title}
             year={music.year}
             artist={music.artis.name}

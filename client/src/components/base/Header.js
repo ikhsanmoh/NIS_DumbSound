@@ -7,6 +7,8 @@ import LoginModal from '../modal/LoginModal';
 import RegistrationModal from '../modal/RegistrationModal';
 import Button from '../button/Button';
 import RoundedImage from '../frame/RoundedImage';
+import NavigationDropdown from '../dropdown/NavigationDropdown';
+import Navbar from '../navigation/Navbar';
 
 import './Header.css';
 
@@ -35,23 +37,6 @@ const Header = () => {
     })
   }
 
-  const dropDownClick = (e) => {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-
-  window.onclick = function (event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
-
   const bg = {
     backgroundImage: 'url(/header-bg.png)'
   }
@@ -60,35 +45,11 @@ const Header = () => {
     <>
       <header className='header' style={bg}>
         <div className="header-top">
-          <div className="logo">
-            <img src="/ds-logo.png" alt="logo" />
-          </div>
-          <div className="option">
-            {state.isLogin ? (
-              <div className="dropdown">
-                <div className="dropdownbtn-wrapper">
-                  <div onClick={dropDownClick} className="dropbtn">
-                  </div>
-                  <RoundedImage size='40px' />
-                </div>
-                <div id="myDropdown" className="dropdown-content">
-                  <Link to="add-music">
-                    <h4>Add Music</h4>
-                  </Link>
-                  <Link to="add-artist">
-                    <h4>Add Artist</h4>
-                  </Link>
-                  <h4 className="logout" onClick={logout}>Logout</h4>
-                </div>
-              </div>
-            ) : (
-              <>
-                <Button className="btn btn-login" text="Login" onClick={loginModalToggle} />
-                <Button className="btn btn-register" text="Register" onClick={registModalToggle} />
-              </>
-            )
-            }
-          </div>
+          <Navbar
+            loginModalToggle={loginModalToggle}
+            registModalToggle={registModalToggle}
+            logout={logout}
+          />
         </div>
         <div className="header-body">
           <div className="text">

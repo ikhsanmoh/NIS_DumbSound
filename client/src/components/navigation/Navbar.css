@@ -1,0 +1,34 @@
+.navbar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items:center;
+  justify-content: space-between;
+}
+
+.navbar .logo{
+  width: 145px;
+  height: auto;
+}
+
+.navbar .option {
+  display: flex;
+  flex-flow: row nowrap;
+  height: max-content;
+}
+
+.navbar .option > * {
+  flex: 1;
+  flex-flow: row nowrap;
+  margin: 5px;
+  padding: 5 10 5 10;
+}
+
+.navbar .option .btn-register,
+.navbar .option .btn-login {
+  padding: 5px 36px;
+}
+
+.navbar .option .btn-login {
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #FFF;
+}

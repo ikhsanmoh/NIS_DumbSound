@@ -59,10 +59,15 @@ exports.registration = async (req, res) => {
     }, process.env.SECRET_KEY)
 
     res.send({
-      msg: 'success',
+      message: 'success',
       data: {
-        fullName: newUser.fullName,
-        token: accessToken
+        user: {
+          id: newUser.id,
+          fullName: newUser.fullName,
+          email: newUser.email,
+          status: newUser.listAs,
+          token: accessToken
+        }
       }
     })
   } catch (e) {
@@ -76,7 +81,6 @@ exports.registration = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    console.log('login')
     const { body } = req
 
     const schema = joi.object({
@@ -108,12 +112,6 @@ exports.login = async (req, res) => {
 
     const passwordValidation = await bcrypt.compare(body.password, emailValidation.password)
 
-    // const passwordValidation = await User.findOne({
-    //   where: {
-    //     password: body.password
-    //   }
-    // })
-
     if (!passwordValidation) {
       return res.status(404).send({
         status: 'failed',
@@ -126,11 +124,15 @@ exports.login = async (req, res) => {
     }, process.env.SECRET_KEY)
 
     res.send({
-      status: 'success',
+      message: 'success',
       data: {
-        fullName: emailValidation.fullName,
-        email: emailValidation.email,
-        token: accessToken
+        user: {
+          id: emailValidation.id,
+          fullName: emailValidation.fullName,
+          email: emailValidation.email,
+          status: emailValidation.listAs,
+          token: accessToken
+        }
       }
     })
   } catch (e) {

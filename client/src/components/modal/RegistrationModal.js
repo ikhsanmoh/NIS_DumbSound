@@ -104,7 +104,7 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
               onChange={e => setAddress(e.target.value)}
               required
             />
-            <Button text="Register" className="btn" onClick={false} />
+            <Button text="Register" className="btn" onClick={() => { }} />
           </form>
           <p>
             Already have an account ? Klik

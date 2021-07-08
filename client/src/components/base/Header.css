@@ -2,45 +2,13 @@ header.header {
   display: flex;
   flex-flow: column nowrap;
   height: 512px;
-  padding-top: 20px;
-  padding: 20px 20px 0 20px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 header.header .header-top {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-}
-
-header.header .header-top .logo{
-  width: 145px;
-  height: auto;
-}
-
-header.header .header-top .option {
-  display: flex;
-  flex-flow: row nowrap;
-  height: max-content;
-}
-
-header.header .header-top .option > * {
-  flex: 1;
-  flex-flow: row nowrap;
-  margin: 5px;
-  padding: 5 10 5 10;
-}
-
-header.header .header-top .option .btn-register,
-header.header .header-top .option .btn-login {
-  padding: 5px 36px;
-}
-
-header.header .header-top .option .btn-login {
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #FFF;
+  padding: 10px 20px;
 }
 
 header.header .header-body {
@@ -64,53 +32,3 @@ header.header .header-body h3 {
   line-height: 29px;
   text-align: center;
 }
-
-/* Dropdown */
-.dropdownbtn-wrapper {
-  position: relative;
-}
-
-.dropbtn {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 50px;
-  right: 3px;
-  min-width: 160px;
-  overflow: auto;
-  background: #3A3A3A;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 4px 4px 20px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  z-index: 1;
-}
-
-.dropdown-content h4 {
-  /* color: white; */
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  cursor: pointer;
-}
-
-.dropdown-content h4.logout {
-  border-top: 2px solid #eee;
-}
-
-.dropdown h4:hover {
-  background-color: #333;
-}
-
-.show {display: block;}

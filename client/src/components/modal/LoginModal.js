@@ -29,10 +29,10 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
 
       if (response.status === 200) {
         alert('Login success!')
-        setAuthToken(response.data.data.token)
+        setAuthToken(response.data.data.user.token)
         dispatch({
           type: 'LOGIN',
-          payload: response.data.data
+          payload: response.data.data.user
         })
         modalClose()
 
@@ -66,7 +66,7 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
               onChange={e => setPassword(e.target.value)}
               required
             />
-            <Button text="Login" className="btn btn-login" onClick={false} />
+            <Button text="Login" className="btn btn-login" onClick={() => { }} />
           </form>
           <p>
             Don't have an account ? Klik

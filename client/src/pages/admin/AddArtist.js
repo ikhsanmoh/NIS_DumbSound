@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import { API } from '../../config/api'
 
-
+import Navbar from '../../components/navigation/Navbar';
 import Button from '../../components/button/Button'
 import RoundedImage from '../../components/frame/RoundedImage';
 
@@ -57,47 +57,10 @@ const AddArtist = () => {
     }
   }
 
-  const dropDownClick = (e) => {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-
-  window.onclick = function (event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
-
   return (
     <div className="admin">
       <div className="admin-header">
-        <div className="logo">
-          <img src="/ds-logo.png" alt="logo" />
-        </div>
-        <div className="option">
-          <div className="dropdown">
-            <div className="dropdownbtn-wrapper">
-              <div onClick={dropDownClick} className="dropbtn">
-              </div>
-              <RoundedImage size='40px' />
-            </div>
-            <div id="myDropdown" className="dropdown-content">
-              <Link to="add-music">
-                <h4>Add Music</h4>
-              </Link>
-              <Link to="add-artist">
-                <h4>Add Artist</h4>
-              </Link>
-              <h4 className="logout" onClick={logout}>Logout</h4>
-            </div>
-          </div>
-        </div>
+        <Navbar logout={logout} />
       </div>
 
       <div className="form-wrapper">
@@ -122,8 +85,9 @@ const AddArtist = () => {
             />
             <select
               onChange={e => setType(e.target.value)}
+              value={type}
             >
-              <option value="" selected>Type</option>
+              <option value="">Type</option>
               <option value="solo">Solo</option>
               <option value="band">Band</option>
             </select>
@@ -135,7 +99,7 @@ const AddArtist = () => {
               required
             />
             <div className="submit">
-              <Button text='Add Artist' className="btn btn-submit" onClick={false} />
+              <Button text='Add Artist' className="btn btn-submit" onClick={() => { }} />
             </div>
           </form>
         </div>
