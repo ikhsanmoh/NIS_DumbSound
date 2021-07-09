@@ -9,36 +9,40 @@ import './Payment.css'
 const Payment = () => {
   const [accountNumber, setAccountNumber] = useState('')
   const [attache, setAttache] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
 
   const onSubmitHandler = async (e) => {
     try {
-      // e.preventDefault()
-      // if (isNaN(old)) return alert('Old input must contain number.')
-      // const SUCCESS = 200
-      // const config = {
-      //   headers: {
-      //     "Content-type": "application/json"
-      //   }
-      // }
+      e.preventDefault();
+      if (isNaN(accountNumber)) return alert('Account number should contains number!')
+      if (attache === null) return alert('Input attache file first!')
+      const SUCCESS = 200
 
-      // const oldInt = +old
-      // const body = JSON.stringify({
-      //   name,
-      //   old: oldInt,
-      //   type,
-      //   startCareer
-      // })
+      const config = {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      }
 
-      // const response = await API.post("/artist", body, config)
+      // Set Req body
+      const dateObj = new Date()
+      const CURRENT_DATE = `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`
+      const STATUS = 'Pending'
 
-      // if (response.status === SUCCESS) {
-      //   setName('')
-      //   setOld('')
-      //   setType('')
-      //   setStartCareer('')
+      const formData = new FormData()
+      formData.set("startDate", CURRENT_DATE)
+      formData.set("dueDate", CURRENT_DATE)
+      formData.set("status", STATUS)
+      formData.set("image", attache, attache.name)
 
-      //   alert('Artsit Added.')
-      // }
+      const response = await API.post("/transaction", formData, config)
+
+      if (response.status === SUCCESS) {
+        alert('Transaction Success.')
+        setAccountNumber('')
+        setAttache(null)
+        setImagePreview(null)
+      }
     } catch (error) {
       alert(error?.response?.data?.message)
     }
@@ -46,9 +50,9 @@ const Payment = () => {
 
   const handleUploadFileChanges = (e) => {
     const uploaded = e.target.files[0]
+    const uploadedPath = URL.createObjectURL(uploaded)
+    setImagePreview(uploadedPath)
     setAttache(uploaded)
-    // const uploadedPath = URL.createObjectURL(uploaded)
-    // setImagePreview(uploadedPath)
   }
 
   return (
@@ -87,6 +91,10 @@ const Payment = () => {
                   onChange={handleUploadFileChanges}
                 />
               </div>
+              {imagePreview !== null &&
+                <div className='uploaded-file-preview'>
+                  <img src={imagePreview} alt="..." />
+                </div>}
               <div className="submit">
                 <Button text='Send' className="btn btn-submit" onClick={() => { }} />
               </div>
