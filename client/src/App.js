@@ -1,17 +1,72 @@
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { UserContext } from './context/userContext';
 
 import AddMusic from './pages/admin/AddMusic';
 import AddArtist from './pages/admin/AddArtist';
 import Home from './pages/Home';
+import Header from './components/base/Header';
+import Payment from './components/payment/Payment';
+import ListTrasactions from './pages/admin/ListTrasactions';
 
 import './App.css';
 
+/**
+ * TODO: Design routes for admin and user
+ */
 function App() {
+  const [state, dispatch] = useContext(UserContext)
+  const [routes, setRoutes] = useState([])
+
+  useEffect(() => {
+    if (state.isLogin && state.user.status === '1') {
+      setRoutes([
+        {
+          path: '/',
+          exact: true,
+          main: () => <ListTrasactions />
+        },
+        {
+          path: '/add-music',
+          exact: true,
+          main: () => <AddMusic />
+        },
+        {
+          path: '/add-artist',
+          exact: true,
+          main: () => <AddArtist />
+        }
+      ])
+    } else {
+      setRoutes([
+        {
+          path: '/',
+          exact: true,
+          main: () => <Home />
+        },
+        {
+          path: '/payment',
+          exact: true,
+          main: () => <Payment />
+        }
+      ])
+    }
+  }, [state.isLogin])
+
   return (
     <Router>
       <div className="App">
+        {/* <Header /> */}
         <Switch>
-          <Route path='/' exact={true}>
+          {routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              children={route.main}
+            />
+          ))}
+          {/* <Route path='/' exact={true}>
             <Home />
           </Route>
           <Route path='/add-music' exact={true}>
@@ -19,7 +74,7 @@ function App() {
           </Route>
           <Route path='/add-artist' exact={true}>
             <AddArtist />
-          </Route>
+          </Route> */}
         </Switch>
       </div>
     </Router>

@@ -36,15 +36,15 @@ const NavigationDropdown = ({ logout }) => {
       <div id="myDropdown" className="dropdown-content">
         {state.user.status === '1' ? (
           <>
-            <Link to="add-music">
+            <Link to="/add-music">
               <h4>Add Music</h4>
             </Link>
-            <Link to="add-artist">
+            <Link to="/add-artist">
               <h4>Add Artist</h4>
             </Link>
           </>
         ) : (
-          <Link to="payment">
+          <Link to="/payment">
             <h4>Pay</h4>
           </Link>
         )}

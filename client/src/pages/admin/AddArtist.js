@@ -6,6 +6,7 @@ import { API } from '../../config/api'
 import Navbar from '../../components/navigation/Navbar';
 import Button from '../../components/button/Button'
 import RoundedImage from '../../components/frame/RoundedImage';
+import AdminHeader from '../../components/base/AdminHeader';
 
 import './AddArtist.css'
 
@@ -59,9 +60,11 @@ const AddArtist = () => {
 
   return (
     <div className="admin">
-      <div className="admin-header">
+      {/* <div className="admin-header">
         <Navbar logout={logout} />
-      </div>
+      </div> */}
+
+      <AdminHeader />
 
       <div className="form-wrapper">
         <div className="title">

@@ -1,6 +1,9 @@
+import AdminHeader from '../../components/base/AdminHeader';
+
 const AddMusic = () => {
   return (
-    <div>
+    <div classNamea='add-music'>
+      <AdminHeader />
       Add Music
     </div>
   )

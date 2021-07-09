@@ -64,6 +64,39 @@ const Header = () => {
       <LoginModal switchModal={switchModalToggle} modalStat={modalLogin} modalClose={loginModalToggle} />
       <RegistrationModal switchModal={switchModalToggle} modalStat={modalRegist} modalClose={registModalToggle} />
     </>
+
+    // <>
+    //   {state.isLogin && state.user.status === '1' ? (
+    //     <header className="admin">
+    //       <div className="admin-header">
+    //         <Navbar logout={logout} />
+    //       </div>
+    //     </header>
+    //   ) : (
+    //     <>
+    //       <header className='header' style={bg}>
+    //         <div className="header-top">
+    //           <Navbar
+    //             loginModalToggle={loginModalToggle}
+    //             registModalToggle={registModalToggle}
+    //             logout={logout}
+    //           />
+    //         </div>
+    //         <div className="header-body">
+    //           <div className="text">
+    //             <h1>Connect on DumbSound</h1>
+    //             <h3>
+    //               Discovery, Stream, and share a constantly expanding mix of music
+    //               from emerging and major artists around the world
+    //             </h3>
+    //           </div>
+    //         </div>
+    //       </header>
+    //       <LoginModal switchModal={switchModalToggle} modalStat={modalLogin} modalClose={loginModalToggle} />
+    //       <RegistrationModal switchModal={switchModalToggle} modalStat={modalRegist} modalClose={registModalToggle} />
+    //     </>
+    //   )}
+    // </>
   )
 }
 

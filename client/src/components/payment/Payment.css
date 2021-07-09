@@ -1,0 +1,71 @@
+.payment-form form .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.payment {
+  height: 100vh;
+}
+
+.payment .payment-body form .btn-upload {
+  background-color: rgba(0, 0, 0, .0);
+  border-radius: 5px;
+  border: 2px solid white;
+  color: #EE4622;
+  width: 100%;
+  padding: 13px 15px;
+}
+
+.payment-form form .upload-btn-wrapper input[type=file] {
+  position: absolute;
+  /* top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0; */
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.payment .payment-body {
+  padding-top: 50px;
+  text-align: center;
+}
+
+.payment .payment-body > * {
+  margin-bottom: 15px;
+}
+
+.payment .payment-body .title {
+  margin-bottom: 50px;
+}
+
+.payment .payment-body .dumbsound .orange-txt {
+  color: #EE4622;
+}
+
+.payment-form {
+  padding-top: 50px;
+  width: 20%;
+  margin: auto;
+}
+
+.payment-form input[type="text"],
+.payment-form select {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: rgba(210, 210, 210, 0.25);
+  border: 2px solid #D2D2D2;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: 0;
+  color: white;
+}
+
+.payment-form .btn-submit {
+  margin: 50px 0;
+}
