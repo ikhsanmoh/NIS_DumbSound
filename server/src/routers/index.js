@@ -7,10 +7,13 @@ const {
   login,
   registration
 } = require('../controllers/auth')
+
 const {
-  addArtist
+  addArtist,
+  getMusics
 } = require('../controllers/music')
-const { getMusics } = require('../controllers/music')
+
+const { addPayment } = require('../controllers/payment')
 
 // Middleware
 const { auth } = require('../middleware/auth')
@@ -20,5 +23,6 @@ router.post('/login', login)
 router.post('/register', registration)
 router.get('/musics', getMusics)
 router.post('/artist', auth, addArtist)
+router.post('/transaction', auth, addPayment)
 
 module.exports = router

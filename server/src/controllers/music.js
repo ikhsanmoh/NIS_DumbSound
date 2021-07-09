@@ -42,8 +42,12 @@ exports.addArtist = async (req, res) => {
         startCareer: createMusic.startCareer,
       }
     })
-  } catch (error) {
-
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
   }
 }
 
