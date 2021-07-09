@@ -7,6 +7,12 @@ exports.addPayment = async (req, res) => {
   try {
     const { body } = req
     const { idUser: userId } = req.authData
+    const image = req.files.image[0].filename
+
+    const reqPostData = {
+      ...body,
+      attache: image
+    }
 
     const schema = joi.object({
       startDate: joi.string().required(),
@@ -15,7 +21,7 @@ exports.addPayment = async (req, res) => {
       status: joi.string().required()
     })
 
-    const { error } = schema.validate(body)
+    const { error } = schema.validate(reqPostData)
 
     if (error) {
       return res.status(422).send({
@@ -26,24 +32,39 @@ exports.addPayment = async (req, res) => {
 
     const createPayment = await Payment.create({
       userId,
-      startDate: body.startDate,
-      dueDate: body.dueDate,
-      attache: body.attache,
-      status: body.status,
+      startDate: reqPostData.startDate,
+      dueDate: reqPostData.dueDate,
+      attache: reqPostData.attache,
+      status: reqPostData.status,
       createdAt: new Date(),
       updatedAt: new Date()
     })
 
+    const getCreatedPayment = await Payment.findOne({
+      where: { id: createPayment.id },
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'listAs', 'createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['userId', 'createdAt', 'updatedAt']
+      }
+    })
+
+    const path = process.env.UPLOADS_PATH
+    const parseJSON = JSON.parse(JSON.stringify(getCreatedPayment))
+
+    const modifiedPayment = {
+      ...parseJSON,
+      attache: path + parseJSON.attache
+    }
+
     res.send({
       msg: 'success',
-      data: {
-        id: createPayment.id,
-        startDate: createPayment.startDate,
-        dueDate: createPayment.dueDate,
-        attache: createPayment.attache,
-        status: createPayment.status,
-        userId: createPayment.userId
-      }
+      data: modifiedPayment
     })
   } catch (e) {
     console.log(e)
