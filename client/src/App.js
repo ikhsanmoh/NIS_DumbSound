@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Header from './components/base/Header';
 import Payment from './components/payment/Payment';
 import ListTrasactions from './pages/admin/ListTrasactions';
+import PrivateRoute from './components/routes/PrivateRoute';
 
 import './App.css';
 
@@ -58,14 +59,27 @@ function App() {
       <div className="App">
         {/* <Header /> */}
         <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={route.main}
-            />
-          ))}
+          {routes.map((route, index) => {
+            if (route.path === '/') {
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  children={route.main}
+                />
+              )
+            } else {
+              return (
+                <PrivateRoute
+                  key={index}
+                  path={route.path}
+                  children={route.main}
+                />
+              )
+            }
+          })}
+
           {/* <Route path='/' exact={true}>
             <Home />
           </Route>
