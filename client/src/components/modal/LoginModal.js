@@ -28,16 +28,17 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
       const response = await API.post("/login", body, config)
 
       if (response.status === 200) {
+        setEmail('')
+        setPassword('')
+
         alert('Login success!')
+        modalClose()
+
         setAuthToken(response.data.data.user.token)
         dispatch({
           type: 'LOGIN',
           payload: response.data.data.user
         })
-        modalClose()
-
-        setEmail('')
-        setPassword('')
       }
     } catch (error) {
       alert(error?.response?.data?.message)
