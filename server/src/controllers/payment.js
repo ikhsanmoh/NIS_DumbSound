@@ -74,3 +74,31 @@ exports.addPayment = async (req, res) => {
     })
   }
 }
+
+exports.getPayments = async (req, res) => {
+  try {
+    const payments = await Payment.findAll({
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'listAs', 'createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['userId', 'createdAt', 'updatedAt']
+      }
+    })
+
+    res.send({
+      status: 'success',
+      data: payments
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
+  }
+}

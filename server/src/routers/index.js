@@ -13,11 +13,14 @@ const {
   getMusics
 } = require('../controllers/music')
 
-const { addPayment } = require('../controllers/payment')
-const { uploadFile } = require('../middleware/uploadFile')
+const {
+  addPayment,
+  getPayments
+} = require('../controllers/payment')
 
 // Middleware
 const { auth } = require('../middleware/auth')
+const { uploadFile } = require('../middleware/uploadFile')
 
 // Constant
 const UPLOADS_FIELD_NAME = 'image'
@@ -28,5 +31,7 @@ router.post('/register', registration)
 router.get('/musics', getMusics)
 router.post('/artist', auth, addArtist)
 router.post('/transaction', auth, uploadFile(UPLOADS_FIELD_NAME), addPayment)
+router.get('/transactions', auth, getPayments)
+
 
 module.exports = router
