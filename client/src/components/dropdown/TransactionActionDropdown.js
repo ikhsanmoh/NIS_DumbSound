@@ -1,6 +1,6 @@
 import './TransactionActionDropdown.css'
 
-const TransactionActionDropdown = ({ id, actionHandler }) => {
+const TransactionActionDropdown = ({ id, startDate, actionHandler }) => {
   const dropDownClick = (i) => {
     document.getElementById(`transactionActionDropdown-${i}`).classList.toggle("show");
   }
@@ -15,8 +15,8 @@ const TransactionActionDropdown = ({ id, actionHandler }) => {
         </div>
       </div>
       <div id={`transactionActionDropdown-${id}`} className="dropdown-content action-content">
-        <h4 className="approved" onClick={actionHandler}>Approved</h4>
-        <h4 className="cancel" onClick={actionHandler}>Cancel</h4>
+        <h4 className="approved" onClick={() => actionHandler(id, startDate, '1')}>Approved</h4>
+        <h4 className="cancel" onClick={() => actionHandler(id, startDate, '0')}>Cancel</h4>
       </div>
     </div>
   )

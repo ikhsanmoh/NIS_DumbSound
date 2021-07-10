@@ -35,6 +35,19 @@
   border-bottom: 1px solid #eee;
 }
 
+.list-transaction table.transaction-table tbody td.green-text {
+  color: #0ACF83;
+
+}
+
+.list-transaction table.transaction-table tbody td.red-text {
+  color: #FF0000;
+}
+
+.list-transaction table.transaction-table tbody td.yellow-text {
+  color: #F7941E;
+}
+
 .list-transaction table.transaction-table tbody tr {
   background: #3A3A3A;
 }
