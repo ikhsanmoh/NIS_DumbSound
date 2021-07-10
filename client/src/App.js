@@ -13,7 +13,8 @@ import PrivateRoute from './components/routes/PrivateRoute';
 import './App.css';
 
 /**
- * TODO: Design routes for admin and user
+ * TODO 1: Design routes for admin and user.
+ * TODO 2: Fix memory leak.
  */
 function App() {
   const [state, dispatch] = useContext(UserContext)
@@ -52,12 +53,14 @@ function App() {
         }
       ])
     }
-  }, [state.isLogin])
+  }, [
+    state.isLogin,
+    state.user?.status
+  ])
 
   return (
     <Router>
       <div className="App">
-        {/* <Header /> */}
         <Switch>
           {routes.map((route, index) => {
             if (route.path === '/') {
@@ -79,16 +82,28 @@ function App() {
               )
             }
           })}
-
-          {/* <Route path='/' exact={true}>
-            <Home />
-          </Route>
-          <Route path='/add-music' exact={true}>
-            <AddMusic />
-          </Route>
-          <Route path='/add-artist' exact={true}>
-            <AddArtist />
-          </Route> */}
+          {/* {(() => {
+            if (!state.isLogin) {
+              return <Route path='/' exact={true} component={Home} />
+            } else {
+              if (state.user.status === '1') {
+                return (
+                  <>
+                    <PrivateRoute path='/' exact={true} children={ListTrasactions} />
+                    <PrivateRoute path='/add-music' exact={true} children={AddArtist} />
+                    <PrivateRoute path='/add-artist' exact={true} children={() => <AddArtist />} />
+                  </>
+                )
+              } else {
+                return (
+                  <>
+                    <Route path='/' exact={true} component={Home} />
+                    <PrivateRoute path='/payment' children={() => <Payment />} />
+                  </>
+                )
+              }
+            }
+          })()} */}
         </Switch>
       </div>
     </Router>

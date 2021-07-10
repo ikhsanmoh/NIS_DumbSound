@@ -1,0 +1,44 @@
+.list-transaction .transaction-table-wrapper {
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.list-transaction .transaction-table-wrapper .title {
+  margin-bottom: 30px;
+}
+
+.list-transaction table.transaction-table {
+  width: 100%;
+}
+
+.list-transaction table.transaction-table,
+.list-transaction table.transaction-table thead th,
+.list-transaction table.transaction-table tbody td {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.list-transaction table.transaction-table thead th,
+.list-transaction table.transaction-table tbody td {
+  padding: 20px 25px;
+  text-align: left;
+}
+
+.list-transaction table.transaction-table thead th {
+  background: #2B2B2B;
+  color: #EE4622;
+}
+
+.list-transaction table.transaction-table tbody td {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.list-transaction table.transaction-table tbody tr {
+  background: #3A3A3A;
+}
+
+.list-transaction table.transaction-table tbody tr:nth-child(even) {
+  background: #2B2B2B;
+}
