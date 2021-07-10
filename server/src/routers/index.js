@@ -15,7 +15,8 @@ const {
 
 const {
   addPayment,
-  getPayments
+  getPayments,
+  changePaymentStatus
 } = require('../controllers/payment')
 
 // Middleware
@@ -32,6 +33,7 @@ router.get('/musics', getMusics)
 router.post('/artist', auth, addArtist)
 router.post('/transaction', auth, uploadFile(UPLOADS_FIELD_NAME), addPayment)
 router.get('/transactions', auth, getPayments)
+router.put('/transaction', auth, changePaymentStatus)
 
 
 module.exports = router

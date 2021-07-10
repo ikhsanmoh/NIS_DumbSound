@@ -77,6 +77,19 @@ exports.addPayment = async (req, res) => {
 
 exports.getPayments = async (req, res) => {
   try {
+    const { idUser } = req.authData
+
+    const checkUser = await User.findOne({
+      where: { id: idUser }
+    })
+
+    if (checkUser.listAs !== '1') {
+      return res.status(401).send({
+        status: 'Access Denied.',
+        message: 'API accessible by admin only.'
+      })
+    }
+
     const payments = await Payment.findAll({
       include: {
         model: User,
@@ -93,6 +106,85 @@ exports.getPayments = async (req, res) => {
     res.send({
       status: 'success',
       data: payments
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
+  }
+}
+
+exports.changePaymentStatus = async (req, res) => {
+  try {
+    const { body } = req
+    const { idUser } = req.authData
+
+    const checkUser = await User.findOne({
+      where: { id: idUser }
+    })
+
+    if (checkUser.listAs !== '1') {
+      return res.status(401).send({
+        status: 'Access Denied.',
+        message: 'API accessible by admin only.'
+      })
+    }
+
+    const schema = joi.object({
+      paymentId: joi.required(),
+      dueDate: joi.string().required(),
+      status: joi.string().required()
+    })
+
+    const { error } = schema.validate(body)
+
+    if (error) {
+      return res.status(422).send({
+        status: 'invalid',
+        message: error.details[0].message
+      })
+    }
+
+    const checkPaymentId = await Payment.findOne({
+      where: { id: body.paymentId }
+    })
+
+    if (!checkPaymentId) {
+      return res.status(404).send({
+        status: 'failed',
+        message: `Payment with ID: ${body.paymentId} is Not Found`
+      })
+    }
+
+    // Setup field to upadate
+    const reqUpdateData = {
+      dueDate: body.dueDate,
+      status: body.status
+    }
+
+    await Payment.update(reqUpdateData, {
+      where: { id: body.paymentId }
+    })
+
+    const updatedPayment = await Payment.findOne({
+      where: { id: body.paymentId },
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {
+          exclude: ['password', 'listAs', 'createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['userId', 'createdAt', 'updatedAt']
+      }
+    })
+
+    res.send({
+      status: 'success',
+      data: updatedPayment
     })
   } catch (e) {
     console.log(e)
