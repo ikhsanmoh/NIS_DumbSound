@@ -5,26 +5,27 @@ import { API } from '../config/api'
 
 import Header from '../components/base/Header';
 import Main from '../components/base/Main';
-// import MusicPlayer from '../components/player/MusicPlayer';
+import MusicPlayer from '../components/player/MusicPlayer';
 
 const Home = () => {
   const [state, dispatch] = useContext(UserContext)
   const [showMusicPlayer, setShowMusicPlayer] = useState(false)
   const [musics, setMusics] = useState(false)
+  const [currentPlay, setCurrentPlay] = useState(false)
+  const [unmountMusicPlayer, setUnmountMusicPlayer] = useState(true)
 
-  const openMusicPlayer = () => {
+  const openMusicPlayer = (index) => {
     if (!state.isLogin) {
       return alert('Login First!')
     }
 
+    setCurrentPlay(index)
     setShowMusicPlayer(true)
-    alert('Music Play')
   }
 
   const loadMusics = async () => {
     try {
       const SUCCESS = 200
-      // const loggedInUserId = state.user.id
 
       const response = await API.get('/musics')
 
@@ -41,10 +42,21 @@ const Home = () => {
     loadMusics()
   }, [])
 
+  useEffect(() => {
+    if (!state.isLogin) {
+      setShowMusicPlayer(false)
+    } else {
+      setUnmountMusicPlayer(false)
+    }
+  }, [state.isLogin])
+
   return (
     <div>
       <Header />
       <Main openMusicPlayer={openMusicPlayer} musics={musics} />
+      {showMusicPlayer &&
+        musics ?
+        <MusicPlayer currentIndexPlay={currentPlay} musics={musics} unmount={unmountMusicPlayer} /> : null}
     </div>
   )
 }

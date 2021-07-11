@@ -14,10 +14,11 @@ const Main = ({ openMusicPlayer, musics }) => {
         {musics && musics.map((music, index) => (
           <SongCard
             key={index}
+            image={music.thumbnail}
             title={music.title}
             year={music.year}
             artist={music.artis.name}
-            onClick={openMusicPlayer}
+            onClick={() => openMusicPlayer(index)}
           />
         ))}
       </div>
