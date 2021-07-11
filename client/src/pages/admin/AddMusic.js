@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from '../../config/api'
 
 import AdminHeader from '../../components/base/AdminHeader';
@@ -18,6 +18,22 @@ const AddMusic = () => {
   const [thumbnail, setThumbnail] = useState('')
   const [attache, setAttache] = useState('')
   const [artistId, setArtistId] = useState('')
+  const [artists, setArtists] = useState(null)
+
+  const loadArtists = async () => {
+    try {
+      const SUCCESS = 200
+
+      const response = await API.get('/artists')
+
+      if (response.status === SUCCESS) {
+        const artistsList = response.data.data
+        setArtists(artistsList)
+      }
+    } catch (err) {
+      alert(err)
+    }
+  }
 
   const onSubmitHandler = async (e) => {
     // try {
@@ -67,6 +83,10 @@ const AddMusic = () => {
     // setImagePreview(uploadedPath)
   }
 
+  useEffect(() => {
+    loadArtists()
+  }, [])
+
   return (
     <div className='add-music'>
       <AdminHeader />
@@ -107,8 +127,10 @@ const AddMusic = () => {
               value={artistId}
             >
               <option value="">Singer</option>
-              <option value="1">Coldplay</option>
-              <option value="2">Ed Sheeran</option>
+              {artists &&
+                artists.map((artist, index) => (
+                  <option key={index} value={artist.id}>{artist.name}</option>
+                ))}
             </select>
             <div className="upload-btn-wrapper upload-attache-control">
               <button className="btn btn-upload" disabled>Attache</button>
