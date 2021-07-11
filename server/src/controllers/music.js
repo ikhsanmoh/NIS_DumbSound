@@ -173,9 +173,20 @@ exports.getMusics = async (req, res) => {
       }
     })
 
+    const path = process.env.UPLOADS_PATH
+    const parseJSON = JSON.parse(JSON.stringify(musics))
+
+    const modifiedMusics = parseJSON.map(music => {
+      return {
+        ...music,
+        thumbnail: path + music.thumbnail,
+        attache: path + music.attache
+      }
+    })
+
     res.send({
       status: 'success',
-      data: musics
+      data: modifiedMusics
     })
   } catch (e) {
     console.log(e)
