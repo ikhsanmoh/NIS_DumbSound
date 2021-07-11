@@ -137,6 +137,27 @@ exports.addMusic = async (req, res) => {
   }
 }
 
+exports.getArtists = async (req, res) => {
+  try {
+    const artists = await Artist.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    })
+
+    res.send({
+      status: 'success',
+      data: artists
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
+  }
+}
+
 exports.getMusics = async (req, res) => {
   try {
     const musics = await Music.findAll({

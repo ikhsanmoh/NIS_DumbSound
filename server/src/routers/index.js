@@ -11,6 +11,7 @@ const {
 // Music Controllers
 const {
   addArtist,
+  getArtists,
   addMusic,
   getMusics
 } = require('../controllers/music')
@@ -36,6 +37,7 @@ router.post('/register', registration)
 
 // Music Endpoints
 router.post('/artist', auth, addArtist)
+router.get('/artists', getArtists)
 router.get('/musics', getMusics)
 router.post('/music', auth, uploadFile(UPLOADS_IMG_FIELD_NAME, UPLOADS_AUDIO_FIELD_NAME), addMusic)
 
