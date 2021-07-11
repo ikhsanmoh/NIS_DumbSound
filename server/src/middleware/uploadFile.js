@@ -1,6 +1,6 @@
 const multer = require('multer')
 
-exports.uploadFile = (image, video) => {
+exports.uploadFile = (image, audio) => {
   // init multer diskstorage
   // Menentukan destination file upload
   // Menentukan nama file (rename agar tidak ada file yang sama / ganda)
@@ -26,19 +26,20 @@ exports.uploadFile = (image, video) => {
       }
     }
 
-    if (file.fieldname === video) {
-      if (!file.originalname.match(/\.(mp4|mkv)$/)) {
+    if (file.fieldname === audio) {
+      if (!file.originalname.match(/\.(mp3|mp4)$/)) {
         req.fileValidationError = {
-          message: "Only video files are allowed!"
+          message: "Only audio files are allowed!"
         };
-        return cb(new Error("Only video files are allowed!"), false);
+        return cb(new Error("Only audio files are allowed!"), false);
       }
     }
     cb(null, true)
   }
 
-  const sizeInMB = 1000;
-  const maxSize = sizeInMB * 1000 * 1000; //Maximum file size in MB
+  const sizeInMB = 5000 // 5 mb
+  const sizeInByte = sizeInMB * 1000 // 5.000.000 byte
+  const maxSize = sizeInByte
 
   // eksekusi upload multer dan menentukan disk storage, validation dan maxfile size
   const upload = multer({
@@ -53,7 +54,7 @@ exports.uploadFile = (image, video) => {
       maxCount: 1
     },
     {
-      name: video,
+      name: audio,
       maxCount: 1
     }
   ]); //untuk menentukan jumlah file
@@ -76,7 +77,7 @@ exports.uploadFile = (image, video) => {
         // Jika size melebihi batas
         if (err.code === "LIMIT_FILE_SIZE") {
           return res.status(400).send({
-            message: "Max file sized 100MB"
+            message: "Max file sized 5 MB"
           })
         }
         return res.status(400).send(err)

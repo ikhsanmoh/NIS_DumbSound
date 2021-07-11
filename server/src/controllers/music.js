@@ -23,7 +23,7 @@ exports.addArtist = async (req, res) => {
       })
     }
 
-    const createMusic = await Artist.create({
+    const createArtist = await Artist.create({
       name: body.name,
       old: body.old,
       type: body.type,
@@ -35,12 +35,98 @@ exports.addArtist = async (req, res) => {
     res.send({
       msg: 'success',
       data: {
-        id: createMusic.id,
-        name: createMusic.name,
-        old: createMusic.old,
-        type: createMusic.type,
-        startCareer: createMusic.startCareer,
+        id: createArtist.id,
+        name: createArtist.name,
+        old: createArtist.old,
+        type: createArtist.type,
+        startCareer: createArtist.startCareer,
       }
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
+  }
+}
+
+exports.addMusic = async (req, res) => {
+  try {
+    const { body } = req
+    const image = req.files.image[0].filename
+    const audio = req.files.audio[0].filename
+
+    const reqPostData = {
+      ...body,
+      thumbnail: image,
+      attache: audio
+    }
+
+    const schema = joi.object({
+      title: joi.string().required(),
+      year: joi.string().required(),
+      thumbnail: joi.required(),
+      attache: joi.string().required(),
+      artistId: joi.required()
+    })
+
+    const { error } = schema.validate(reqPostData)
+
+    if (error) {
+      return res.status(422).send({
+        status: 'invalid',
+        message: error.details[0].message
+      })
+    }
+
+    const checkArtists = await Artist.findOne({
+      where: { id: reqPostData.artistId }
+    })
+
+    if (!checkArtists) {
+      return res.status(404).send({
+        status: 'failed',
+        message: `Artist with ID: ${reqPostData.artistId} is Not Found`
+      })
+    }
+
+    const createMusic = await Music.create({
+      artist: reqPostData.artistId,
+      title: reqPostData.title,
+      year: reqPostData.year,
+      thumbnail: reqPostData.thumbnail,
+      attache: reqPostData.attache,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+
+    const getCreatedMusic = await Music.findOne({
+      where: { id: createMusic.id },
+      include: {
+        model: Artist,
+        as: 'artis',
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['artist', 'createdAt', 'updatedAt']
+      }
+    })
+
+    const path = process.env.UPLOADS_PATH
+    const parseJSON = JSON.parse(JSON.stringify(getCreatedMusic))
+
+    const modifiedNewMusic = {
+      ...parseJSON,
+      thumbnail: path + parseJSON.thumbnail,
+      attache: path + parseJSON.attache
+    }
+
+    res.send({
+      msg: 'success',
+      data: modifiedNewMusic
     })
   } catch (e) {
     console.log(e)
