@@ -1,0 +1,67 @@
+.add-music .form-wrapper {
+  padding-top: 50px;
+  width: 60%;
+  margin: auto;
+}
+
+.add-music .form-wrapper .form input[type="text"],
+.add-music .form-wrapper .form input[type="email"],
+.add-music .form-wrapper .form input[type="password"],
+.add-music .form-wrapper .form select {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: rgba(210, 210, 210, 0.25);
+  border: 2px solid #D2D2D2;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: 0;
+  color: white;
+}
+
+.add-music .form-wrapper .form .input-group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-music .form-wrapper .form .input-group .title-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.add-music .form-wrapper .form .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: max-content;
+}
+
+.add-music .form-wrapper .form .btn-upload {
+  background: rgba(210, 210, 210, 0.25);
+  color: #B1B1B1;
+  border-radius: 5px;
+  border: 2px solid white;
+  width: 100%;
+  padding: 8px 15px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.add-music .form-wrapper .form .upload-attache-control {
+  margin: 10px 0;
+}
+
+.add-music .form-wrapper .form .upload-btn-wrapper input[type=file] {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.add-music .form-wrapper .form .btn-submit {
+  margin-top: 20px;
+}

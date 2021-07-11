@@ -15,8 +15,8 @@ import './AddMusic.css'
 const AddMusic = () => {
   const [title, setTitle] = useState('')
   const [year, setYear] = useState('')
-  const [thumbnail, setThumbnail] = useState('')
-  const [attache, setAttache] = useState('')
+  const [thumbnail, setThumbnail] = useState(null)
+  const [attache, setAttache] = useState(null)
   const [artistId, setArtistId] = useState('')
   const [artists, setArtists] = useState(null)
 
@@ -36,37 +36,40 @@ const AddMusic = () => {
   }
 
   const onSubmitHandler = async (e) => {
-    // try {
-    //   e.preventDefault()
-    //   if (isNaN(old)) return alert('Old input must contain number.')
-    //   const SUCCESS = 200
-    //   const config = {
-    //     headers: {
-    //       "Content-type": "application/json"
-    //     }
-    //   }
+    try {
+      e.preventDefault()
+      if (thumbnail === null) return alert('Select Thumbnail.')
+      if (attache === null) return alert('Select Music.')
 
-    //   const oldInt = +old
-    //   const body = JSON.stringify({
-    //     name,
-    //     old: oldInt,
-    //     type,
-    //     startCareer
-    //   })
+      const SUCCESS = 200
 
-    //   const response = await API.post("/artist", body, config)
+      const config = {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      }
 
-    //   if (response.status === SUCCESS) {
-    //     setName('')
-    //     setOld('')
-    //     setType('')
-    //     setStartCareer('')
+      const formData = new FormData()
+      formData.set("title", title)
+      formData.set("year", year)
+      formData.set("image", thumbnail, thumbnail.name)
+      formData.set("audio", attache, attache.name)
+      formData.set("artistId", artistId)
 
-    //     alert('Artsit Added.')
-    //   }
-    // } catch (error) {
-    //   alert(error?.response?.data?.message)
-    // }
+      const response = await API.post("/music", formData, config)
+
+      if (response.status === SUCCESS) {
+        setTitle('')
+        setYear('')
+        setThumbnail(null)
+        setArtistId('')
+        setAttache(null)
+
+        alert('Music Added.')
+      }
+    } catch (error) {
+      alert(error?.response?.data?.message)
+    }
   }
 
   const handleUploadFileImageChanges = (e) => {
