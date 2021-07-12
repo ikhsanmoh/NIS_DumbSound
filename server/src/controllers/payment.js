@@ -168,6 +168,31 @@ exports.changePaymentStatus = async (req, res) => {
       where: { id: body.paymentId }
     })
 
+    let subscription = 'false'
+    if (reqUpdateData.status === 'Approved') {
+      subscription = 'true'
+    }
+
+    const paymentData = await Payment.findOne({
+      where: { id: body.paymentId },
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {
+          exclude: ['fullName', 'email', 'gender', 'phone', 'address', 'subscribe', 'password', 'listAs', 'createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['startDate', 'dueDate', 'attache', 'status', 'userId', 'createdAt', 'updatedAt']
+      }
+    })
+
+    await User.update({
+      subscribe: subscription
+    }, {
+      where: { id: paymentData.user.id }
+    })
+
     const updatedPayment = await Payment.findOne({
       where: { id: body.paymentId },
       include: {

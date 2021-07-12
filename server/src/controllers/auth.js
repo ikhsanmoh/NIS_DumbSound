@@ -42,6 +42,8 @@ exports.registration = async (req, res) => {
     const hashStrenght = 10
     const hashedPass = await bcrypt.hash(body.password, hashStrenght)
 
+    const defaultSubscription = 'false'
+
     const newUser = await User.create({
       fullName: body.fullName,
       email: body.email,
@@ -50,6 +52,7 @@ exports.registration = async (req, res) => {
       gender: body.gender,
       phone: body.phone,
       address: body.address,
+      subscribe: defaultSubscription,
       createdAt: new Date(),
       updatedAt: new Date()
     })
@@ -66,6 +69,7 @@ exports.registration = async (req, res) => {
           fullName: newUser.fullName,
           email: newUser.email,
           status: newUser.listAs,
+          subscribe: newUser.subscribe,
           token: accessToken
         }
       }
@@ -131,6 +135,7 @@ exports.login = async (req, res) => {
           fullName: emailValidation.fullName,
           email: emailValidation.email,
           status: emailValidation.listAs,
+          subscribe: emailValidation.subscribe,
           token: accessToken
         }
       }
@@ -172,7 +177,8 @@ exports.checkAuth = async (req, res) => {
           id: parseJSON.id,
           fullName: parseJSON.fullName,
           email: parseJSON.email,
-          status: parseJSON.listAs
+          status: parseJSON.listAs,
+          subscribe: parseJSON.subscribe
         }
       }
     })
