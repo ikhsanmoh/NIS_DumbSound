@@ -19,6 +19,8 @@ const Home = () => {
       return alert('Login First!')
     }
 
+    if (state.user.subscribe === 'false') return alert('You are not subscribe yet!')
+
     setCurrentPlay(index)
     setShowMusicPlayer(true)
   }

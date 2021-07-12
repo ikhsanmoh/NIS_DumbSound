@@ -153,9 +153,9 @@ const ListTrasactions = () => {
                     <td>{transaction.attache}</td>
                     <td>{`${transaction.remainingDate} Days`}</td>
                     <td
-                      style={transaction.status === 'Approved' ? myStyle.greenTxt : myStyle.redTxt}
+                      style={transaction.user.subscribe === 'true' ? myStyle.greenTxt : myStyle.redTxt}
                     >
-                      {transaction.status === 'Approved' ? 'Active' : 'Not Active'}
+                      {transaction.user.subscribe === 'true' ? 'Active' : 'Not Active'}
                     </td>
                     <td
                       style={(() => {
