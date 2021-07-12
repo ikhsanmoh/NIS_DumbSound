@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
 import { useState, useContext, useEffect } from 'react'
 import { UserContext } from './context/userContext';
+import { API, setAuthToken } from './config/api'
 
 import AddMusic from './pages/admin/AddMusic';
 import AddArtist from './pages/admin/AddArtist';
@@ -12,13 +13,42 @@ import PrivateRoute from './components/routes/PrivateRoute';
 
 import './App.css';
 
-/**
- * TODO 1: Design routes for admin and user.
- * TODO 2: Fix memory leak.
- */
+if (localStorage.access_token) {
+  // Set Header every time web get refreshed
+  setAuthToken(localStorage.access_token)
+}
+
 function App() {
   const [state, dispatch] = useContext(UserContext)
   const [routes, setRoutes] = useState([])
+
+  const tokenValidation = async () => {
+    try {
+      const response = await API.get('/check-auth')
+
+      if (response.status === 200) {
+        let payload = response.data.data.user
+        payload.token = localStorage.access_token
+
+        dispatch({
+          type: "USER_SUCCESS",
+          payload
+        })
+      }
+    } catch (err) {
+      if (err.response.status === 404 || err.response.status === 401) {
+        dispatch({
+          type: "AUTH_ERROR"
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.access_token) {
+      tokenValidation()
+    }
+  }, [])
 
   useEffect(() => {
     if (state.isLogin && state.user.status === '1') {

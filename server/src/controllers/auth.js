@@ -143,3 +143,44 @@ exports.login = async (req, res) => {
     })
   }
 }
+
+exports.checkAuth = async (req, res) => {
+  try {
+    const { idUser } = req.authData
+
+    const user = await User.findOne({
+      where: {
+        id: idUser
+      },
+      attributes: {
+        exclude: ['gender', 'phone', 'address', 'password', 'createdAt', 'updatedAt']
+      }
+    })
+
+    if (!user) {
+      return res.status(404).send({
+        status: 'failed'
+      })
+    }
+
+    const parseJSON = JSON.parse(JSON.stringify(user))
+
+    res.send({
+      status: 'success',
+      data: {
+        user: {
+          id: parseJSON.id,
+          fullName: parseJSON.fullName,
+          email: parseJSON.email,
+          status: parseJSON.listAs
+        }
+      }
+    })
+  } catch (error) {
+    console.log(error)
+    res.status({
+      status: 'failed',
+      message: 'Server Error',
+    })
+  }
+}

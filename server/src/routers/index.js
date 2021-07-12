@@ -5,7 +5,8 @@ const router = express.Router()
 // Auth Controllers
 const {
   login,
-  registration
+  registration,
+  checkAuth
 } = require('../controllers/auth')
 
 // Music Controllers
@@ -34,6 +35,7 @@ const UPLOADS_AUDIO_FIELD_NAME = 'audio'
 // Auth Endpoints
 router.post('/login', login)
 router.post('/register', registration)
+router.get("/check-auth", auth, checkAuth);
 
 // Music Endpoints
 router.post('/artist', auth, addArtist)
