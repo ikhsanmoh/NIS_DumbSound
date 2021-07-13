@@ -106,3 +106,9 @@ form .text-area {
   color: white;
   width: 96%;
 }
+
+.center {
+  height:100%;
+  display: grid;
+  place-items: center;
+}

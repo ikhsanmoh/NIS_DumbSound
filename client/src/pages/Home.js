@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { UserContext } from '../context/userContext';
 import { API } from '../config/api'
 
-
+import Loading from '../components/spinner/Loading';
 import Header from '../components/base/Header';
 import Main from '../components/base/Main';
 import MusicPlayer from '../components/player/MusicPlayer';
@@ -41,7 +41,9 @@ const Home = () => {
   }
 
   useEffect(() => {
-    loadMusics()
+    setTimeout(() => {
+      loadMusics()
+    }, 2000)
   }, [])
 
   useEffect(() => {
@@ -55,7 +57,11 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <Main openMusicPlayer={openMusicPlayer} musics={musics} />
+      {!musics ? (
+        <div className="center">
+          <Loading type='bars' size='5%' />
+        </div>
+      ) : <Main openMusicPlayer={openMusicPlayer} musics={musics} />}
       {showMusicPlayer &&
         musics ?
         <MusicPlayer currentIndexPlay={currentPlay} musics={musics} unmount={unmountMusicPlayer} /> : null}
