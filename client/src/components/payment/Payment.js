@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 import { API } from '../../config/api'
 
 import TrasparantHeader from '../base/TrasparantHeader';
@@ -7,6 +8,7 @@ import Button from '../button/Button'
 import './Payment.css'
 
 const Payment = () => {
+  const [state, dispatch] = useContext(UserContext)
   const [accountNumber, setAccountNumber] = useState('')
   const [attache, setAttache] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
@@ -16,7 +18,17 @@ const Payment = () => {
       e.preventDefault();
       if (isNaN(accountNumber)) return alert('Account number should contains number!')
       if (attache === null) return alert('Input attache file first!')
+
       const SUCCESS = 200
+
+      const checkUserPayment = await API.get("/check-user-payment")
+      if (checkUserPayment.status === SUCCESS && checkUserPayment.data.data !== null) {
+        const subscriptionStatus = checkUserPayment.data.data.user.subscribe
+        const paymentStatus = checkUserPayment.data.data.status
+
+        if (subscriptionStatus === 'true') return alert('You already in the subscription!')
+        if (paymentStatus === 'Pending') return alert('You subscription is on proccess.')
+      }
 
       const config = {
         headers: {
