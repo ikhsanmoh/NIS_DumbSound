@@ -219,3 +219,45 @@ exports.changePaymentStatus = async (req, res) => {
     })
   }
 }
+
+exports.checkUserPayment = async (req, res) => {
+  try {
+    const { idUser } = req.authData
+
+    const checkUser = await User.findOne({
+      where: { id: idUser }
+    })
+
+    if (!checkUser) {
+      return res.status(404).send({
+        status: 'failed',
+        message: `User with ID: ${idUser} is Not Found`
+      })
+    }
+
+    const payment = await Payment.findOne({
+      include: {
+        model: User,
+        as: 'user',
+        where: { id: idUser },
+        attributes: {
+          exclude: ['password', 'listAs', 'createdAt', 'updatedAt']
+        }
+      },
+      attributes: {
+        exclude: ['userId', 'createdAt', 'updatedAt']
+      }
+    })
+
+    res.send({
+      status: 'success',
+      data: payment
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error"
+    })
+  }
+}
