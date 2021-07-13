@@ -37,18 +37,30 @@ const NavigationDropdown = ({ logout }) => {
         {state.user.status === '1' ? (
           <>
             <Link to="/add-music">
-              <h4>Add Music</h4>
+              <div className="nav-item">
+                <img src="/add-music.png" alt="..." />
+                <h4>Add Music</h4>
+              </div>
             </Link>
             <Link to="/add-artist">
-              <h4>Add Artist</h4>
+              <div className="nav-item">
+                <img src="/add-artist.png" alt="..." />
+                <h4>Add Artist</h4>
+              </div>
             </Link>
           </>
         ) : (
           <Link to="/payment">
-            <h4>Pay</h4>
+            <div className="nav-item">
+              <img src="/payment.png" alt="..." />
+              <h4>Pay</h4>
+            </div>
           </Link>
         )}
-        <h4 className="logout" onClick={logout}>Logout</h4>
+        <div className="nav-item logout" onClick={logout}>
+          <img src="/logout.png" alt="..." />
+          <h4>Logout</h4>
+        </div>
       </div>
     </div>
   )

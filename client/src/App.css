@@ -59,6 +59,27 @@ button.btn {
   color: #FFFFFF;
 }
 
+button.btn.flex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button.btn.flex.attache-cover > * {
+  margin: 0 10px;
+}
+
+button.btn.attache-cover img {
+  width: auto;
+  height: 100%;
+}
+
+button.btn.attache-bill img {
+  width: 30px;
+  /* height: 100%; */
+}
+
 form .upload-btn-wrapper {
   position: relative;
   overflow: hidden;

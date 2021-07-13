@@ -117,7 +117,10 @@ const AddMusic = () => {
                 required
               />
               <div className="upload-btn-wrapper">
-                <button className="btn btn-upload" disabled>Attache Thumbnail</button>
+                <button className="btn flex attache-cover btn-upload" disabled>
+                  <span>Attache Thumbnail</span>
+                  <img src="/attache-image.png" alt="..." />
+                </button>
                 <input
                   type="file"
                   name="image"

@@ -112,7 +112,10 @@ const Payment = () => {
                 required
               />
               <div className="upload-btn-wrapper">
-                <button className="btn btn-upload" disabled>Attache proof of transfer</button>
+                <button className="btn flex attache-bill btn-upload" disabled>
+                  <span>Attache proof of transfer</span>
+                  <img src="/attache-bill.png" alt="..." />
+                </button>
                 <input
                   type="file"
                   name="image"
