@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { API } from '../../config/api'
+
+import Loading from '../spinner/Loading';
 import Modal from './Modal'
-import Button from '../button/Button';
 
 import './FormsModal.css'
 
 const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
+  const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,6 +19,7 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault()
+      setIsLoading(true)
 
       const config = {
         headers: {
@@ -35,23 +38,25 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
       })
 
       const response = await API.post("/register", body, config)
+      setTimeout(() => {
+        if (response.status === 200) {
+          alert('Registration Success!')
+          setIsLoading(false)
+          setName('')
+          setEmail('')
+          setPassword('')
+          setAddress('')
+          setListAs('')
+          setGender('')
+          setPhone('')
+          setAddress('')
 
-      if (response.status === 200) {
-        alert('Registration Success!')
-      }
-
-      setName('')
-      setEmail('')
-      setPassword('')
-      setAddress('')
-      setListAs('')
-      setGender('')
-      setPhone('')
-      setAddress('')
-
-      modalClose()
+          modalClose()
+        }
+      }, 2000)
     } catch (error) {
       alert(error?.response?.data?.message)
+      setIsLoading(false)
     }
   }
 
@@ -104,7 +109,13 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
               onChange={e => setAddress(e.target.value)}
               required
             />
-            <Button text="Register" className="btn" onClick={() => { }} />
+            <button className="btn" disabled={isLoading}>
+              {isLoading ? (
+                <div className="center">
+                  <Loading type="bubbles" color='white' />
+                </div>
+              ) : "Register"}
+            </button>
           </form>
           <p>
             Already have an account ? Klik

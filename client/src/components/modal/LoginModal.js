@@ -1,19 +1,23 @@
 import { useState, useContext } from 'react'
 import { UserContext } from '../../context/userContext'
 import { API, setAuthToken } from '../../config/api'
+
+import Loading from '../spinner/Loading';
 import Modal from './Modal';
-import Button from '../button/Button';
 
 import './FormsModal.css'
 
 const LoginModal = ({ switchModal, modalStat, modalClose }) => {
   const [state, dispatch] = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault()
+      setIsLoading(true)
+
       const config = {
         headers: {
           "Content-type": "application/json"
@@ -27,21 +31,25 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
 
       const response = await API.post("/login", body, config)
 
-      if (response.status === 200) {
-        setEmail('')
-        setPassword('')
+      setTimeout(() => {
+        if (response.status === 200) {
+          setEmail('')
+          setPassword('')
 
-        alert('Login success!')
-        modalClose()
+          alert('Login success!')
+          setIsLoading(false)
+          modalClose()
 
-        setAuthToken(response.data.data.user.token)
-        dispatch({
-          type: 'LOGIN',
-          payload: response.data.data.user
-        })
-      }
+          setAuthToken(response.data.data.user.token)
+          dispatch({
+            type: 'LOGIN',
+            payload: response.data.data.user
+          })
+        }
+      }, 2000)
     } catch (error) {
       alert(error?.response?.data?.message)
+      setIsLoading(false)
     }
   }
 
@@ -67,7 +75,13 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
               onChange={e => setPassword(e.target.value)}
               required
             />
-            <Button text="Login" className="btn btn-login" onClick={() => { }} />
+            <button className="btn" disabled={isLoading}>
+              {isLoading ? (
+                <div className="center">
+                  <Loading type="bubbles" color='white' />
+                </div>
+              ) : "Login"}
+            </button>
           </form>
           <p>
             Don't have an account ? Klik

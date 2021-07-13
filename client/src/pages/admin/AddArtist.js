@@ -4,14 +4,15 @@ import { UserContext } from '../../context/userContext'
 import { API } from '../../config/api'
 
 import Navbar from '../../components/navigation/Navbar';
-import Button from '../../components/button/Button'
 import RoundedImage from '../../components/frame/RoundedImage';
 import AdminHeader from '../../components/base/AdminHeader';
+import Loading from '../../components/spinner/Loading';
 
 import './AddArtist.css'
 
 const AddArtist = () => {
   const [state, dispatch] = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
   const [old, setOld] = useState('')
   const [type, setType] = useState('')
@@ -27,6 +28,8 @@ const AddArtist = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault()
+      setIsLoading(true)
+
       if (isNaN(old)) return alert('Old input must contain number.')
       const SUCCESS = 200
       const config = {
@@ -45,15 +48,20 @@ const AddArtist = () => {
 
       const response = await API.post("/artist", body, config)
 
-      if (response.status === SUCCESS) {
-        setName('')
-        setOld('')
-        setType('')
-        setStartCareer('')
+      setTimeout(() => {
+        if (response.status === SUCCESS) {
+          setName('')
+          setOld('')
+          setType('')
+          setStartCareer('')
 
-        alert('Artsit Added.')
-      }
+          setIsLoading(false)
+          alert('Artsit Added.')
+        }
+      }, 2000)
+
     } catch (error) {
+      setIsLoading(false)
       alert(error?.response?.data?.message)
     }
   }
@@ -101,9 +109,13 @@ const AddArtist = () => {
               onChange={e => setStartCareer(e.target.value)}
               required
             />
-            <div className="submit">
-              <Button text='Add Artist' className="btn btn-submit" onClick={() => { }} />
-            </div>
+            <button className="btn btn-submit" disabled={isLoading}>
+              {isLoading ? (
+                <div className="center">
+                  <Loading type="bubbles" color='white' />
+                </div>
+              ) : "Add Artist"}
+            </button>
           </form>
         </div>
       </div>

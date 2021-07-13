@@ -2,13 +2,14 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../context/userContext';
 import { API } from '../../config/api'
 
+import Loading from '../spinner/Loading';
 import TrasparantHeader from '../base/TrasparantHeader';
-import Button from '../button/Button'
 
 import './Payment.css'
 
 const Payment = () => {
   const [state, dispatch] = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false)
   const [accountNumber, setAccountNumber] = useState('')
   const [attache, setAttache] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
@@ -16,18 +17,29 @@ const Payment = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true)
+
       if (isNaN(accountNumber)) return alert('Account number should contains number!')
       if (attache === null) return alert('Input attache file first!')
 
       const SUCCESS = 200
 
+
       const checkUserPayment = await API.get("/check-user-payment")
+
       if (checkUserPayment.status === SUCCESS && checkUserPayment.data.data !== null) {
         const subscriptionStatus = checkUserPayment.data.data.user.subscribe
         const paymentStatus = checkUserPayment.data.data.status
 
-        if (subscriptionStatus === 'true') return alert('You already in the subscription!')
-        if (paymentStatus === 'Pending') return alert('You subscription is on proccess.')
+        if (subscriptionStatus === 'true') {
+          setIsLoading(false)
+          return alert('You already in the subscription!')
+        }
+
+        if (paymentStatus === 'Pending') {
+          setIsLoading(false)
+          return alert('You subscription is on proccess.')
+        }
       }
 
       const config = {
@@ -49,14 +61,18 @@ const Payment = () => {
 
       const response = await API.post("/transaction", formData, config)
 
-      if (response.status === SUCCESS) {
-        alert('Transaction Success.')
-        setAccountNumber('')
-        setAttache(null)
-        setImagePreview(null)
-      }
+      setTimeout(() => {
+        if (response.status === SUCCESS) {
+          alert('Transaction Success.')
+          setIsLoading(false)
+          setAccountNumber('')
+          setAttache(null)
+          setImagePreview(null)
+        }
+      }, 2000)
     } catch (error) {
       alert(error?.response?.data?.message)
+      setIsLoading(false)
     }
   }
 
@@ -107,9 +123,13 @@ const Payment = () => {
                 <div className='uploaded-file-preview'>
                   <img src={imagePreview} alt="..." />
                 </div>}
-              <div className="submit">
-                <Button text='Send' className="btn btn-submit" onClick={() => { }} />
-              </div>
+              <button className="btn btn-submit" disabled={isLoading}>
+                {isLoading ? (
+                  <div className="center">
+                    <Loading type="bubbles" color='white' />
+                  </div>
+                ) : "Send"}
+              </button>
             </form>
           </div>
         </div>

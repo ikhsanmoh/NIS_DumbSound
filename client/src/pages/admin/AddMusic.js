@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { API } from '../../config/api'
 
 import AdminHeader from '../../components/base/AdminHeader';
-import Button from '../../components/button/Button'
+import Loading from '../../components/spinner/Loading';
 
 import './AddMusic.css'
 
@@ -13,6 +13,7 @@ import './AddMusic.css'
  */
 
 const AddMusic = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState('')
   const [thumbnail, setThumbnail] = useState(null)
@@ -38,6 +39,7 @@ const AddMusic = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault()
+      setIsLoading(true)
       if (thumbnail === null) return alert('Select Thumbnail.')
       if (attache === null) return alert('Select Music.')
 
@@ -58,16 +60,21 @@ const AddMusic = () => {
 
       const response = await API.post("/music", formData, config)
 
-      if (response.status === SUCCESS) {
-        setTitle('')
-        setYear('')
-        setThumbnail(null)
-        setArtistId('')
-        setAttache(null)
+      setTimeout(() => {
+        if (response.status === SUCCESS) {
+          setTitle('')
+          setYear('')
+          setThumbnail(null)
+          setArtistId('')
+          setAttache(null)
 
-        alert('Music Added.')
-      }
+          setIsLoading(false)
+          alert('Music Added.')
+        }
+      }, 2000)
+
     } catch (error) {
+      setIsLoading(false)
       alert(error?.response?.data?.message)
     }
   }
@@ -143,9 +150,13 @@ const AddMusic = () => {
                 onChange={handleUploadFileAudioChanges}
               />
             </div>
-            <div className="submit">
-              <Button text='Add Song' className="btn btn-submit" onClick={() => { }} />
-            </div>
+            <button className="btn btn-submit" disabled={isLoading}>
+              {isLoading ? (
+                <div className="center">
+                  <Loading type="bubbles" color='white' />
+                </div>
+              ) : "Add Music"}
+            </button>
           </form>
         </div>
       </div>
