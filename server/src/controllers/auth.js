@@ -1,4 +1,6 @@
-const { users: User } = require('../../models')
+const { users: User, payments: Payment } = require('../../models')
+const { checkUserSubscription } = require('../helpers')
+
 const joi = require('joi')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
@@ -123,6 +125,16 @@ exports.login = async (req, res) => {
       })
     }
 
+    const subscription = await checkUserSubscription(emailValidation.id)
+    await User.update(
+      {
+        subscribe: subscription
+      },
+      {
+        where: { id: emailValidation.id }
+      }
+    )
+
     const accessToken = jwt.sign({
       id: emailValidation.id
     }, process.env.SECRET_KEY)
@@ -135,7 +147,7 @@ exports.login = async (req, res) => {
           fullName: emailValidation.fullName,
           email: emailValidation.email,
           status: emailValidation.listAs,
-          subscribe: emailValidation.subscribe,
+          subscribe: subscription,
           token: accessToken
         }
       }
@@ -170,6 +182,16 @@ exports.checkAuth = async (req, res) => {
 
     const parseJSON = JSON.parse(JSON.stringify(user))
 
+    const subscription = await checkUserSubscription(parseJSON.id)
+    await User.update(
+      {
+        subscribe: subscription
+      },
+      {
+        where: { id: parseJSON.id }
+      }
+    )
+
     res.send({
       status: 'success',
       data: {
@@ -178,7 +200,7 @@ exports.checkAuth = async (req, res) => {
           fullName: parseJSON.fullName,
           email: parseJSON.email,
           status: parseJSON.listAs,
-          subscribe: parseJSON.subscribe
+          subscribe: subscription
         }
       }
     })
