@@ -17,13 +17,11 @@ const Payment = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      setIsLoading(true)
-
       if (isNaN(accountNumber)) return alert('Account number should contains number!')
       if (attache === null) return alert('Input attache file first!')
 
+      setIsLoading(true)
       const SUCCESS = 200
-
 
       const checkUserPayment = await API.get("/check-user-payment")
 
@@ -42,22 +40,26 @@ const Payment = () => {
         }
       }
 
-      const config = {
-        headers: {
-          "Content-type": "multipart/form-data"
-        }
-      }
-
-      // Set Req body
+      // Get Current Date
       const dateObj = new Date()
-      const CURRENT_DATE = `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`
+      const DAY = dateObj.getDate()
+      const MONTH = dateObj.getMonth() + 1 // getMonth method is index based! (0-11), added 1 to get real month
+      const YEAR = dateObj.getFullYear()
+
+      // Prepare Post Data
+      const CURRENT_DATE = `${DAY}/${MONTH}/${YEAR}`
       const STATUS = 'Pending'
 
+      // Set form values
       const formData = new FormData()
       formData.set("startDate", CURRENT_DATE)
       formData.set("dueDate", CURRENT_DATE)
       formData.set("status", STATUS)
       formData.set("image", attache, attache.name)
+
+      const config = {
+        headers: { "Content-type": "multipart/form-data" }
+      }
 
       const response = await API.post("/transaction", formData, config)
 

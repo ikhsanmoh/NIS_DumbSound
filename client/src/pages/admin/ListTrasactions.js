@@ -33,25 +33,28 @@ const ListTrasactions = () => {
 
         // Add remaining dates
         datas = datas.map(data => {
-          // Get dates
-          let currentDate = new Date()
-          let destinationDate = data.dueDate
+          // Set due date str to valid js date format
+          let dueDateStr = data.dueDate
+          const DUE_DATE_ARR = dueDateStr.split('/') // Split by / to get day, month, year as array
+          const DUE_DAY = DUE_DATE_ARR[0]
+          const DUE_MONTH = DUE_DATE_ARR[1]
+          const DUE_YEAR = DUE_DATE_ARR[2]
+          dueDateStr = `${DUE_MONTH}/${DUE_DAY}/${DUE_YEAR}`
 
-          // Split day, month & year as array
-          const destinationDateArr = destinationDate.split('/')
+          // Set Current Date obj
+          const CURRENT_DATE_OBJ = new Date()
+          const DAY = CURRENT_DATE_OBJ.getDate()
+          const MONTH = CURRENT_DATE_OBJ.getMonth() + 1
+          const YEAR = CURRENT_DATE_OBJ.getFullYear()
+          const CURRENT_DATE_STR = `${MONTH}/${DAY}/${YEAR}`
 
-          // Change date format
-          currentDate = `${currentDate.getMonth()}/${currentDate.getDate()}/${currentDate.getFullYear()}`
-          destinationDate = `${destinationDateArr[1]}/${destinationDateArr[0]}/${destinationDateArr[2]}`
+          // Init Dates
+          const CURRENT_DATE = new Date(CURRENT_DATE_STR)
+          const DUE_DATE = new Date(dueDateStr)
 
-          // Init date to calclulate
-          const date1 = new Date(currentDate)
-          const date2 = new Date(destinationDate)
-
-          // Calculate time difference
-          const DIFF_IN_TIME = date2.getTime() - date1.getTime()
-          // Calclulate day difference
-          const DIFF_IN_DAYS = DIFF_IN_TIME / (1000 * 3600 * 24)
+          // Calculate Dates
+          const DIFF_IN_TIME = DUE_DATE.getTime() - CURRENT_DATE.getTime() // Calculate time difference
+          const DIFF_IN_DAYS = DIFF_IN_TIME / (1000 * 3600 * 24) // Calclulate day difference
 
           // Set remaining date
           const remainingDate = DIFF_IN_DAYS >= 0 && data.status === 'Approved' ? DIFF_IN_DAYS : 0;
@@ -65,7 +68,7 @@ const ListTrasactions = () => {
         setTransactions(datas)
       }
     } catch (err) {
-      alert(err?.response?.data?.message)
+      alert(err)
     }
   }
 
@@ -153,9 +156,9 @@ const ListTrasactions = () => {
                     <td>{transaction.attache}</td>
                     <td>{`${transaction.remainingDate} Days`}</td>
                     <td
-                      style={transaction.user.subscribe === 'true' && transaction.status === 'Approved' ? myStyle.greenTxt : myStyle.redTxt}
+                      style={transaction.status === 'Approved' ? myStyle.greenTxt : myStyle.redTxt}
                     >
-                      {transaction.user.subscribe === 'true' && transaction.status === 'Approved' ? 'Active' : 'Not Active'}
+                      {transaction.status === 'Approved' ? 'Active' : 'Not Active'}
                     </td>
                     <td
                       style={(() => {
