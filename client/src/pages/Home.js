@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
-import { UserContext } from '../context/userContext';
+import { Redirect } from "react-router-dom";
 import { API } from '../config/api'
+import { UserContext } from '../context/userContext';
 
 import Loading from '../components/spinner/Loading';
 import Header from '../components/base/Header';
@@ -15,6 +16,7 @@ const Home = () => {
   const [unmountMusicPlayer, setUnmountMusicPlayer] = useState(true)
   const [modalLogin, setModalLogin] = useState(false);
   const [modalRegist, setModalRegist] = useState(false);
+  const [redirect, setRedirect] = useState(false)
 
   const loginModalToggle = (e) => {
     setModalLogin(!modalLogin)
@@ -31,7 +33,7 @@ const Home = () => {
 
   const openMusicPlayer = (index) => {
     if (!state.isLogin) return loginModalToggle()
-    if (state.user.subscribe === 'false') return alert('You are not subscribe yet!')
+    if (state.user.subscribe === 'false') return setRedirect(true)
 
     setCurrentPlay(index)
     setShowMusicPlayer(true)
@@ -66,7 +68,9 @@ const Home = () => {
     }
   }, [state.isLogin])
 
-  return (
+  return redirect ? (
+    <Redirect to='/payment' />
+  ) : (
     <div>
       <Header
         modalLogin={modalLogin}
