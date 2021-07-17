@@ -53,7 +53,7 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
       setIsLoading(false)
       setAlert(
         <Alert style={{ textAlign: 'left' }} severity="error">
-          <AlertTitle>Login failed!</AlertTitle>
+          <AlertTitle>Login failed</AlertTitle>
           {error?.response?.data?.message || 'Something went wrong!'}
         </Alert>
       )

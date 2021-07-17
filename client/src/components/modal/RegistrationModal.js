@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { API } from '../../config/api'
+import { useState, useContext } from 'react'
+import { UserContext } from '../../context/userContext'
+import { API, setAuthToken } from '../../config/api'
 
 import { Alert, AlertTitle } from '@material-ui/lab';
 
@@ -9,6 +10,7 @@ import Modal from './Modal'
 import './FormsModal.css'
 
 const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
+  const [state, dispatch] = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(false)
   const [name, setName] = useState('')
@@ -56,13 +58,18 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
           setAddress('')
 
           modalClose()
+          setAuthToken(response.data.data.user.token)
+          dispatch({
+            type: 'LOGIN',
+            payload: response.data.data.user
+          })
         }
       }, 2000)
     } catch (error) {
       setIsLoading(false)
       setAlert(
         <Alert style={{ textAlign: 'left' }} severity="error">
-          <AlertTitle>Registration failed!</AlertTitle>
+          <AlertTitle>Registration failed</AlertTitle>
           {error?.response?.data?.message || 'Something went wrong!'}
         </Alert>
       )
