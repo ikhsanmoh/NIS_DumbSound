@@ -2,6 +2,8 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../context/userContext';
 import { API } from '../../config/api'
 
+import { Alert, AlertTitle } from '@material-ui/lab';
+
 import Loading from '../spinner/Loading';
 import TrasparantHeader from '../base/TrasparantHeader';
 
@@ -10,6 +12,7 @@ import './Payment.css'
 const Payment = () => {
   const [state, dispatch] = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [accountNumber, setAccountNumber] = useState('')
   const [attache, setAttache] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
@@ -17,8 +20,18 @@ const Payment = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      if (isNaN(accountNumber)) return alert('Account number should contains number!')
-      if (attache === null) return alert('Input attache file first!')
+
+      if (isNaN(accountNumber)) {
+        setAlert(<Alert style={{ textAlign: 'left' }} severity="warning">Account number should contains number</Alert>)
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (attache === null) {
+        setAlert(<Alert style={{ textAlign: 'left' }} severity="warning">Input attache file first</Alert>)
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
 
       setIsLoading(true)
       const SUCCESS = 200
@@ -31,12 +44,20 @@ const Payment = () => {
 
         if (subscriptionStatus === 'true') {
           setIsLoading(false)
-          return alert('You already in the subscription!')
+          setAlert(
+            <Alert style={{ textAlign: 'left' }} severity="info">Your already in subscription</Alert>
+          )
+          setTimeout(() => setAlert(false), 5000)
+          return
         }
 
         if (paymentStatus === 'Pending') {
           setIsLoading(false)
-          return alert('You subscription is on proccess.')
+          setAlert(
+            <Alert style={{ textAlign: 'left' }} severity="info">Your already sent a payment, please wait for the verification in 1x24 hours</Alert>
+          )
+          setTimeout(() => setAlert(false), 5000)
+          return
         }
       }
 
@@ -65,16 +86,23 @@ const Payment = () => {
 
       setTimeout(() => {
         if (response.status === SUCCESS) {
-          alert('Transaction Success.')
           setIsLoading(false)
           setAccountNumber('')
           setAttache(null)
           setImagePreview(null)
+          setAlert(<Alert style={{ textAlign: 'left' }} severity="success">Your payment has been sent, please wait for the verification</Alert>)
+          setTimeout(() => setAlert(false), 5000)
         }
       }, 2000)
     } catch (error) {
-      alert(error?.response?.data?.message)
       setIsLoading(false)
+      setAlert(
+        <Alert style={{ textAlign: 'left' }} severity="error">
+          <AlertTitle>Payment failed</AlertTitle>
+          {error?.response?.data?.message || 'Something went wrong!'}
+        </Alert>
+      )
+      setTimeout(() => setAlert(false), 5000)
     }
   }
 
@@ -105,6 +133,7 @@ const Payment = () => {
             0981312323
           </div>
           <div className="payment-form">
+            {alert && alert}
             <form onSubmit={onSubmitHandler}>
               <input
                 type="text"
