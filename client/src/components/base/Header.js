@@ -12,23 +12,8 @@ import Navbar from '../navigation/Navbar';
 
 import './Header.css';
 
-const Header = () => {
+const Header = ({ modalLogin, modalRegist, loginModalToggle, registModalToggle, switchModalToggle }) => {
   const [state, dispatch] = useContext(UserContext)
-  const [modalLogin, setModalLogin] = useState(false);
-  const [modalRegist, setModalRegist] = useState(false);
-
-  const loginModalToggle = (e) => {
-    setModalLogin(!modalLogin)
-  }
-
-  const registModalToggle = (e) => {
-    setModalRegist(!modalRegist)
-  }
-
-  const switchModalToggle = () => {
-    setModalLogin(!modalLogin)
-    setModalRegist(!modalRegist)
-  }
 
   const logout = () => {
     dispatch({

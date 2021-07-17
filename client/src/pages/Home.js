@@ -13,12 +13,24 @@ const Home = () => {
   const [musics, setMusics] = useState(false)
   const [currentPlay, setCurrentPlay] = useState(false)
   const [unmountMusicPlayer, setUnmountMusicPlayer] = useState(true)
+  const [modalLogin, setModalLogin] = useState(false);
+  const [modalRegist, setModalRegist] = useState(false);
+
+  const loginModalToggle = (e) => {
+    setModalLogin(!modalLogin)
+  }
+
+  const registModalToggle = (e) => {
+    setModalRegist(!modalRegist)
+  }
+
+  const switchModalToggle = () => {
+    setModalLogin(!modalLogin)
+    setModalRegist(!modalRegist)
+  }
 
   const openMusicPlayer = (index) => {
-    if (!state.isLogin) {
-      return alert('Login First!')
-    }
-
+    if (!state.isLogin) return loginModalToggle()
     if (state.user.subscribe === 'false') return alert('You are not subscribe yet!')
 
     setCurrentPlay(index)
@@ -56,7 +68,13 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+        modalLogin={modalLogin}
+        modalRegist={modalRegist}
+        loginModalToggle={loginModalToggle}
+        registModalToggle={registModalToggle}
+        switchModalToggle={switchModalToggle}
+      />
       {!musics ? (
         <div className="center">
           <Loading type='bars' size='5%' />
