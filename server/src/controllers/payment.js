@@ -1,7 +1,6 @@
 // Models
 const { users: User, payments: Payment } = require('../../models')
 const joi = require('joi')
-const jwt = require('jsonwebtoken')
 
 exports.addPayment = async (req, res) => {
   try {
@@ -100,7 +99,8 @@ exports.getPayments = async (req, res) => {
       },
       attributes: {
         exclude: ['userId', 'createdAt', 'updatedAt']
-      }
+      },
+      order: [['createdAt', 'DESC']]
     })
 
     res.send({
@@ -246,7 +246,9 @@ exports.checkUserPayment = async (req, res) => {
       },
       attributes: {
         exclude: ['userId', 'createdAt', 'updatedAt']
-      }
+      },
+      order: [['createdAt', 'DESC']],
+      limit: 1
     })
 
     res.send({
