@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { API } from '../../config/api'
 
+import { Alert, AlertTitle } from '@material-ui/lab';
+
 import Loading from '../spinner/Loading';
 import Modal from './Modal'
 
@@ -8,6 +10,7 @@ import './FormsModal.css'
 
 const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -40,8 +43,9 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
       const response = await API.post("/register", body, config)
       setTimeout(() => {
         if (response.status === 200) {
-          alert('Registration Success!')
           setIsLoading(false)
+
+          // Clear Form
           setName('')
           setEmail('')
           setPassword('')
@@ -55,8 +59,14 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
         }
       }, 2000)
     } catch (error) {
-      alert(error?.response?.data?.message)
       setIsLoading(false)
+      setAlert(
+        <Alert style={{ textAlign: 'left' }} severity="error">
+          <AlertTitle>Registration failed!</AlertTitle>
+          {error?.response?.data?.message || 'Something went wrong!'}
+        </Alert>
+      )
+      setTimeout(() => setAlert(false), 3000)
     }
   }
 
@@ -65,6 +75,7 @@ const RegistrationModal = ({ switchModal, modalStat, modalClose }) => {
       <Modal modalStat={modalStat} modalClose={modalClose}>
         <div className="form-modal">
           <h1>Registration</h1>
+          {alert && alert}
           <form onSubmit={onSubmitHandler}>
             <input
               type="text"

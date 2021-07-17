@@ -2,6 +2,8 @@ import { useState, useContext } from 'react'
 import { UserContext } from '../../context/userContext'
 import { API, setAuthToken } from '../../config/api'
 
+import { Alert, AlertTitle } from '@material-ui/lab';
+
 import Loading from '../spinner/Loading';
 import Modal from './Modal';
 
@@ -10,6 +12,7 @@ import './FormsModal.css'
 const LoginModal = ({ switchModal, modalStat, modalClose }) => {
   const [state, dispatch] = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -36,7 +39,6 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
           setEmail('')
           setPassword('')
 
-          alert('Login success!')
           setIsLoading(false)
           modalClose()
 
@@ -48,8 +50,14 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
         }
       }, 2000)
     } catch (error) {
-      alert(error?.response?.data?.message)
       setIsLoading(false)
+      setAlert(
+        <Alert style={{ textAlign: 'left' }} severity="error">
+          <AlertTitle>Login failed!</AlertTitle>
+          {error?.response?.data?.message || 'Something went wrong!'}
+        </Alert>
+      )
+      setTimeout(() => setAlert(false), 3000)
     }
   }
 
@@ -59,6 +67,7 @@ const LoginModal = ({ switchModal, modalStat, modalClose }) => {
 
         <div className="form-modal">
           <h1>Login</h1>
+          {alert && alert}
           <form onSubmit={onSubmitHandler}>
             <input
               type="text"
