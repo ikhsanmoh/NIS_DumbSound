@@ -31,12 +31,20 @@ const Home = () => {
     setModalRegist(!modalRegist)
   }
 
-  const openMusicPlayer = (index) => {
-    if (!state.isLogin) return loginModalToggle()
-    if (state.user.subscribe === 'false') return setRedirect(true)
+  const openMusicPlayer = async (index) => {
+    try {
+      if (!state.isLogin) return loginModalToggle()
 
-    setCurrentPlay(index)
-    setShowMusicPlayer(true)
+      const response = await API.get('/check-user-subscription')
+      const subscription = response.data.data.user.subscribe
+
+      if (subscription === 'false') return setRedirect(true)
+
+      setCurrentPlay(index)
+      setShowMusicPlayer(true)
+    } catch (error) {
+      alert(error)
+    }
   }
 
   const loadMusics = async () => {
