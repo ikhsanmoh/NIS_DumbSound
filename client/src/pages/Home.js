@@ -6,14 +6,10 @@ import { UserContext } from '../context/userContext';
 import Loading from '../components/spinner/Loading';
 import Header from '../components/base/Header';
 import Main from '../components/base/Main';
-import MusicPlayer from '../components/player/MusicPlayer';
 
-const Home = () => {
+const Home = ({ activateMusicPlayer }) => {
   const [state, dispatch] = useContext(UserContext)
-  const [showMusicPlayer, setShowMusicPlayer] = useState(false)
   const [musics, setMusics] = useState(false)
-  const [currentPlay, setCurrentPlay] = useState(false)
-  const [unmountMusicPlayer, setUnmountMusicPlayer] = useState(true)
   const [modalLogin, setModalLogin] = useState(false);
   const [modalRegist, setModalRegist] = useState(false);
   const [redirect, setRedirect] = useState(false)
@@ -40,8 +36,7 @@ const Home = () => {
 
       if (subscription === 'false') return setRedirect(true)
 
-      setCurrentPlay(index)
-      setShowMusicPlayer(true)
+      activateMusicPlayer(true, index, musics)
     } catch (error) {
       alert(error)
     }
@@ -70,9 +65,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!state.isLogin) {
-      setShowMusicPlayer(false)
-    } else {
-      setUnmountMusicPlayer(false)
+      activateMusicPlayer(false) // Close music player when logout
     }
   }, [state.isLogin])
 
@@ -92,9 +85,6 @@ const Home = () => {
           <Loading type='bars' size='5%' />
         </div>
       ) : <Main openMusicPlayer={openMusicPlayer} musics={musics} />}
-      {showMusicPlayer &&
-        musics ?
-        <MusicPlayer currentIndexPlay={currentPlay} musics={musics} unmount={unmountMusicPlayer} /> : null}
     </div>
   )
 }

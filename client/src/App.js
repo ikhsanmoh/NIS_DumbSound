@@ -10,6 +10,7 @@ import Header from './components/base/Header';
 import Payment from './components/payment/Payment';
 import ListTrasactions from './pages/admin/ListTrasactions';
 import PrivateRoute from './components/routes/PrivateRoute';
+import MusicPlayer from './components/player/MusicPlayer';
 
 import './App.css';
 
@@ -21,6 +22,20 @@ if (localStorage.access_token) {
 function App() {
   const [state, dispatch] = useContext(UserContext)
   const [routes, setRoutes] = useState([])
+  const [musicPlayer, setMusicPlayer] = useState(false)
+
+  const activateMusicPlayer = (openPlayer, playIndex = 0, musics = []) => {
+    if (openPlayer) {
+      setMusicPlayer(
+        <MusicPlayer
+          playIndex={playIndex}
+          musics={musics}
+        />
+      )
+    } else {
+      setMusicPlayer(false)
+    }
+  }
 
   const tokenValidation = async () => {
     try {
@@ -74,7 +89,7 @@ function App() {
         {
           path: '/',
           exact: true,
-          main: () => <Home />
+          main: () => <Home activateMusicPlayer={activateMusicPlayer} />
         },
         {
           path: '/payment',
@@ -136,6 +151,7 @@ function App() {
           })()} */}
         </Switch>
       </div>
+      {musicPlayer && musicPlayer}
     </Router>
   );
 }

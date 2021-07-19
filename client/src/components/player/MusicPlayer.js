@@ -1,7 +1,7 @@
 import ReactJkMusicPlayer from 'react-jinke-music-player'
 import 'react-jinke-music-player/assets/index.css'
 
-const MusicPlayer = ({ currentIndexPlay, musics, unmount }) => {
+const MusicPlayer = ({ playIndex, musics }) => {
   const audioList = musics.map(music => {
     return {
       name: music.title,
@@ -11,10 +11,10 @@ const MusicPlayer = ({ currentIndexPlay, musics, unmount }) => {
     }
   })
 
-  return unmount ? null : (
+  return (
     <ReactJkMusicPlayer
       audioLists={audioList}
-      playIndex={currentIndexPlay}
+      playIndex={playIndex}
       autoPlay={true}
       toggleMode={false}
       showDownload={false}
