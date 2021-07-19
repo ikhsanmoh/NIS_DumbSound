@@ -9,6 +9,8 @@ const {
   checkAuth
 } = require('../controllers/auth')
 
+const { checkUserSubscription } = require('../controllers/user')
+
 // Music Controllers
 const {
   addArtist,
@@ -37,6 +39,9 @@ const UPLOADS_AUDIO_FIELD_NAME = 'audio'
 router.post('/login', login)
 router.post('/register', registration)
 router.get("/check-auth", auth, checkAuth);
+
+// User Endpoint
+router.get("/check-user-subscription", auth, checkUserSubscription);
 
 // Music Endpoints
 router.post('/artist', auth, addArtist)
