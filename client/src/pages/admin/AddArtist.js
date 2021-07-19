@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import { API } from '../../config/api'
 
+import { Alert } from '@material-ui/lab';
+
 import Navbar from '../../components/navigation/Navbar';
 import RoundedImage from '../../components/frame/RoundedImage';
 import AdminHeader from '../../components/base/AdminHeader';
@@ -13,6 +15,7 @@ import './AddArtist.css'
 const AddArtist = () => {
   const [state, dispatch] = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [name, setName] = useState('')
   const [old, setOld] = useState('')
   const [type, setType] = useState('')
@@ -30,7 +33,33 @@ const AddArtist = () => {
       e.preventDefault()
       setIsLoading(true)
 
-      if (isNaN(old)) return alert('Old input must contain number.')
+      if (isNaN(old)) {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Old input must contain numbers</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (isNaN(startCareer)) {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Start Career input must contain valid years</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (type === '') {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Select type</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
       const SUCCESS = 200
       const config = {
         headers: {
@@ -56,13 +85,22 @@ const AddArtist = () => {
           setStartCareer('')
 
           setIsLoading(false)
-          alert('Artsit Added.')
+          setAlert(
+            <Alert style={{ textAlign: 'left' }} severity="success">Artist has been saved</Alert>
+          )
+          setTimeout(() => setAlert(false), 5000)
         }
       }, 2000)
 
     } catch (error) {
+      const message = error?.response?.data?.message || 'Something went wrong'
       setIsLoading(false)
-      alert(error?.response?.data?.message)
+      setAlert(
+        <Alert style={{ textAlign: 'left' }} severity="error">
+          {message}
+        </Alert>
+      )
+      setTimeout(() => setAlert(false), 5000)
     }
   }
 
@@ -79,6 +117,7 @@ const AddArtist = () => {
           <h2>Add Artist</h2>
         </div>
         <div className="form">
+          {alert && alert}
           <form onSubmit={onSubmitHandler}>
             <input
               type="text"

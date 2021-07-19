@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { API } from '../../config/api'
 
+import { Alert } from '@material-ui/lab';
+
 import AdminHeader from '../../components/base/AdminHeader';
 import Loading from '../../components/spinner/Loading';
 
@@ -14,6 +16,7 @@ import './AddMusic.css'
 
 const AddMusic = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [title, setTitle] = useState('')
   const [year, setYear] = useState('')
   const [thumbnail, setThumbnail] = useState(null)
@@ -40,11 +43,44 @@ const AddMusic = () => {
     try {
       e.preventDefault()
       setIsLoading(true)
-      if (thumbnail === null) return alert('Select Thumbnail.')
-      if (attache === null) return alert('Select Music.')
+
+      if (thumbnail === null) {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Select thumbnail file</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (attache === null) {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Select music file</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (isNaN(year)) {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Year input must contain valid years</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
+
+      if (artistId === '') {
+        setIsLoading(false)
+        setAlert(
+          <Alert style={{ textAlign: 'left' }} severity="warning">Select singer/band</Alert>
+        )
+        setTimeout(() => setAlert(false), 5000)
+        return
+      }
 
       const SUCCESS = 200
-
       const config = {
         headers: {
           "Content-type": "multipart/form-data"
@@ -69,13 +105,22 @@ const AddMusic = () => {
           setAttache(null)
 
           setIsLoading(false)
-          alert('Music Added.')
+          setAlert(
+            <Alert style={{ textAlign: 'left' }} severity="success">Music has been saved</Alert>
+          )
+          setTimeout(() => setAlert(false), 5000)
         }
       }, 2000)
 
     } catch (error) {
+      const message = error?.response?.data?.message || 'Something went wrong'
       setIsLoading(false)
-      alert(error?.response?.data?.message)
+      setAlert(
+        <Alert style={{ textAlign: 'left' }} severity="error">
+          {message}
+        </Alert>
+      )
+      setTimeout(() => setAlert(false), 5000)
     }
   }
 
@@ -104,7 +149,7 @@ const AddMusic = () => {
         <div className="title">
           <h2>Add Music</h2>
         </div>
-
+        {alert && alert}
         <div className="form">
           <form onSubmit={onSubmitHandler}>
             <div className="input-group">
