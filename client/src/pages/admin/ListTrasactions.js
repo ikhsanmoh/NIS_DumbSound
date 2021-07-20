@@ -114,7 +114,7 @@ const ListTrasactions = () => {
       const response = await API.put("/transaction", body, config)
 
       if (response.status === SUCCESS) {
-        alert('Update Success!')
+        // alert('Update Success!')
         // Reload Transaction
         loadTransactions()
       }
@@ -153,7 +153,12 @@ const ListTrasactions = () => {
                   <tr key={index}>
                     <td>{tableNum++}</td>
                     <td>{transaction.user.fullName}</td>
-                    <td>{transaction.attache}</td>
+                    <td
+                      className='bill-image'
+                      onClick={() => window.open(transaction.attacheLink, "_blank", 'noopener,noreferrer')}
+                    >
+                      {transaction.attache}
+                    </td>
                     <td>{`${transaction.remainingDate} Days`}</td>
                     <td
                       style={transaction.status === 'Approved' ? myStyle.greenTxt : myStyle.redTxt}

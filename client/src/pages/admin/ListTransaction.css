@@ -35,6 +35,10 @@
   border-bottom: 1px solid #eee;
 }
 
+.list-transaction table.transaction-table tbody td.bill-image {
+  cursor: pointer;
+}
+
 .list-transaction table.transaction-table tbody td.green-text {
   color: #0ACF83;
 
