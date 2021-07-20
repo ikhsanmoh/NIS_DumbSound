@@ -126,9 +126,12 @@ const Payment = () => {
               <span className="orange-txt">DUMB</span>SOUND
             </span>
           </div>
+          <div className="biaya">
+            HARGA PERBULAN: RP. 19.000
+          </div>
           <div className="rekening">
             <span className="dumbsound">
-              <span className="orange-txt">DUMB</span>SOUND:
+              <span className="orange-txt">DUMB</span>SOUND:&nbsp;
             </span>
             0981312323
           </div>
