@@ -103,9 +103,19 @@ exports.getPayments = async (req, res) => {
       order: [['createdAt', 'DESC']]
     })
 
+    const path = process.env.UPLOADS_PATH
+    const parseJSON = JSON.parse(JSON.stringify(payments))
+
+    const modifiedPayments = parseJSON.map(payment => {
+      return {
+        ...payment,
+        attacheLink: path + payment.attache
+      }
+    })
+
     res.send({
       status: 'success',
-      data: payments
+      data: modifiedPayments
     })
   } catch (e) {
     console.log(e)
